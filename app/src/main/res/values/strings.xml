@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Movie Rental</string>
+
+    <!-- Register Activity -->
+    <string name="registerFirstName">First name:</string>
+    <string name="registerLastName">Last name:</string>
+    <string name="registerEmail">Email:</string>
+    <string name="registerButton">Register</string>
 </resources>
