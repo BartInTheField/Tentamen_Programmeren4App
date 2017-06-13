@@ -73,9 +73,57 @@
             android:layout_height="match_parent"
             android:layout_weight="2" />
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="10dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:layout_marginBottom="5dp"
+            android:gravity="bottom"
+            android:textStyle="bold"
+            android:text="@string/registerPassword"/>
+
+        <EditText
+            android:id="@+id/register_edtPassword"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:inputType="textPassword"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="10dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:layout_marginBottom="5dp"
+            android:gravity="bottom"
+            android:textStyle="bold"
+            android:text="@string/registerConfirmPassword"/>
+
+        <EditText
+            android:id="@+id/register_edtConfirmPassword"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:inputType="textPassword"/>
+    </LinearLayout>
     <Button
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/registerButton"/>
+        android:text="@string/registerButton"
+        android:background="@drawable/button"
+        android:onClick="registerButton"/>
 </LinearLayout>
