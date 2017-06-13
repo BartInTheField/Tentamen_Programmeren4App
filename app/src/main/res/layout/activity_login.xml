@@ -63,7 +63,7 @@
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonRegister"
         android:layout_width="96dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="0dp"
@@ -75,7 +75,8 @@
         tools:layout_constraintLeft_creator="1" />
 
     <Button
-        android:id="@+id/button2"
+        android:onClick="LoginButton"
+        android:id="@+id/buttonLogin"
         android:layout_width="96dp"
         android:layout_height="wrap_content"
         android:layout_marginRight="0dp"
