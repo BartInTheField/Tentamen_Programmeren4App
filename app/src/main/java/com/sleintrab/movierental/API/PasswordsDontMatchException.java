@@ -5,4 +5,8 @@ package com.sleintrab.movierental.API;
  */
 
 public class PasswordsDontMatchException extends Exception {
+
+    public PasswordsDontMatchException(String message){
+        super(message);
+    }
 }

@@ -1,5 +1,6 @@
 package com.sleintrab.movierental;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -23,5 +24,10 @@ public class LoginActivity extends AppCompatActivity {
     public void LoginButton(View v){
         new Login(getApplicationContext()).LoginAccount(email.getText().toString(),
                 password.getText().toString());
+    }
+
+    public void registerButton(View v){
+        Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
+        startActivity(i);
     }
 }
