@@ -18,6 +18,7 @@
     android:background="@color/colorPrimary">
 
     <EditText
+        android:text="@string/EMAIL"
         android:id="@+id/editMail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -39,6 +40,7 @@
         android:layout_marginEnd="32dp" />
 
     <EditText
+        android:text="@string/PASSWORD"
         android:id="@+id/editPassword"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
