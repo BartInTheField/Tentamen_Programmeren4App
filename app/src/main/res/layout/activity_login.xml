@@ -11,8 +11,8 @@
     <android.support.constraint.ConstraintLayout
         android:layout_centerInParent="true"
     android:layout_width="match_parent"
+    tools:context="com.sleintrab.movierental.PresentationLayer.LoginActivity"
     android:layout_height="wrap_content"
-    tools:context="com.sleintrab.movierental.LoginActivity"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="25dp"
     android:background="@color/colorPrimary">
