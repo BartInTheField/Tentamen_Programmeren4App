@@ -1,5 +1,6 @@
 package com.sleintrab.movierental.PresentationLayer;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,7 +16,7 @@ import com.sleintrab.movierental.R;
 
 import es.dmoral.toasty.Toasty;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity implements Register.OnRegisterSuccess {
 
     private EditText firstName, lastName, email, password, confirmPassword;
 
@@ -35,7 +36,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void registerButton(View v){
         try{
-            new Register(getApplicationContext()).RegisterCustomer(firstName.getText().toString(),
+            new Register(getApplicationContext(), this).RegisterCustomer(firstName.getText().toString(),
                     lastName.getText().toString(), email.getText().toString(),password.getText().toString(),
                     confirmPassword.getText().toString());
         }catch(EmptyFieldException e){
@@ -45,5 +46,12 @@ public class RegisterActivity extends AppCompatActivity {
             e.printStackTrace();
             Toasty.error(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onRegisterSuccess() {
+
+        Toasty.success(getApplicationContext(), "Succesfully created a customer.", Toast.LENGTH_SHORT).show();
+        finish();
     }
 }
