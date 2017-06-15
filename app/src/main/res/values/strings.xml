@@ -12,4 +12,5 @@
     <string name="registerButton">Submit</string>
     <string name="registerPassword">Password:</string>
     <string name="registerConfirmPassword">Confirm password:</string>
+    <string name="no_films_rented">No films rented yet</string>
 </resources>
