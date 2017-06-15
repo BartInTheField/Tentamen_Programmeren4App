@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/colorPrimary"
     tools:context="com.sleintrab.movierental.PresentationLayer.RegisterActivity">
 
     <TextView
@@ -14,7 +15,8 @@
         android:gravity="center"
         android:text="@string/register"
         android:textSize="30sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:textColor="@android:color/white"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,13 +32,18 @@
             android:layout_marginBottom="5dp"
             android:gravity="bottom"
             android:textStyle="bold"
-            android:text="@string/registerFirstName"/>
+            android:text="@string/registerFirstName"
+
+            android:textColor="@android:color/white"/>
 
         <EditText
             android:id="@+id/register_edtFirstName"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2" />
+            android:layout_weight="2"
+            android:textColor="@android:color/white"
+            android:inputType="textCapWords"
+            android:backgroundTint="@color/colorAccent"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -52,13 +59,17 @@
             android:layout_marginBottom="5dp"
             android:gravity="bottom"
             android:textStyle="bold"
-            android:text="@string/registerLastName"/>
+            android:text="@string/registerLastName"
+            android:textColor="@android:color/white"/>
 
         <EditText
             android:id="@+id/register_edtLastName"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2" />
+            android:layout_weight="2"
+            android:textColor="@android:color/white"
+            android:inputType="textCapWords"
+            android:backgroundTint="@color/colorAccent" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -74,13 +85,17 @@
             android:layout_marginBottom="5dp"
             android:gravity="bottom"
             android:textStyle="bold"
-            android:text="@string/registerEmail"/>
+            android:text="@string/registerEmail"
+            android:inputType="textEmailAddress"
+            android:textColor="@android:color/white"/>
 
         <EditText
             android:id="@+id/register_edtEmail"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2" />
+            android:layout_weight="2"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@color/colorAccent"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -96,14 +111,17 @@
             android:layout_marginBottom="5dp"
             android:gravity="bottom"
             android:textStyle="bold"
-            android:text="@string/registerPassword"/>
+            android:text="@string/registerPassword"
+            android:textColor="@android:color/white"/>
 
         <EditText
             android:id="@+id/register_edtPassword"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
-            android:inputType="textPassword"/>
+            android:inputType="textPassword"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@color/colorAccent"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -119,14 +137,17 @@
             android:layout_marginBottom="5dp"
             android:gravity="bottom"
             android:textStyle="bold"
-            android:text="@string/registerConfirmPassword"/>
+            android:text="@string/registerConfirmPassword"
+            android:textColor="@android:color/white"/>
 
         <EditText
             android:id="@+id/register_edtConfirmPassword"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
-            android:inputType="textPassword"/>
+            android:inputType="textPassword"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@color/colorAccent"/>
     </LinearLayout>
     <Button
         android:layout_width="150dp"

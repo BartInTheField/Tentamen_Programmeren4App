@@ -25,16 +25,17 @@ import es.dmoral.toasty.Toasty;
 
 public class Register implements Response.ErrorListener, Response.Listener{
 
-    private final String URL = "URLFORAPI";
+    private final String URL = "https://movierentalserver.herokuapp.com/api/v1/register";
 
     private JSONObject jsonResponse;
     private RequestQueue mQueue;
 
     private static Context context;
+    private OnRegisterSuccess listener;
 
-    public Register(Context context){
+    public Register(Context context, OnRegisterSuccess listener){
         this.context = context;
-
+        this.listener = listener;
         mQueue = VolleyRequestQueue.getInstance(context.getApplicationContext()).getRequestQueue();
     }
 
@@ -97,7 +98,11 @@ public class Register implements Response.ErrorListener, Response.Listener{
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        Toasty.error(context, "Failed to register customer.", Toast.LENGTH_SHORT).show();
+        if(error.networkResponse.statusCode == 400){
+            Toasty.error(context, "Registration failed: Email in use.", Toast.LENGTH_SHORT).show();
+        }else{
+            Toasty.error(context, "Registration failed.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -107,9 +112,10 @@ public class Register implements Response.ErrorListener, Response.Listener{
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        listener.onRegisterSuccess();
+    }
 
-        Intent i = new Intent(context, LoginActivity.class);
-        Toasty.success(context, "Succesfully created a customer.", Toast.LENGTH_SHORT).show();
-        context.startActivity(i);
+    public interface OnRegisterSuccess{
+        void onRegisterSuccess();
     }
 }
