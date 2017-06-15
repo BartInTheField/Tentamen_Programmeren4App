@@ -16,6 +16,8 @@ import com.sleintrab.movierental.Volley.VolleyRequestQueue;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import es.dmoral.toasty.Toasty;
+
 /**
  * Created by barti on 13-Jun-17.
  */
@@ -71,10 +73,10 @@ public class Login implements Response.ErrorListener, Response.Listener {
     @Override
     public void onErrorResponse(VolleyError error) {
         if (error.networkResponse.statusCode == 400) {
-            Toast.makeText(context, "Invalid Credentials", Toast.LENGTH_SHORT).show();
+            Toasty.error(context, "Invalid Credentials", Toast.LENGTH_SHORT).show();
         } else {
             error.printStackTrace();
-            Toast.makeText(context, "Failed to log in", Toast.LENGTH_SHORT).show();
+            Toasty.error(context, "Failed to log in", Toast.LENGTH_SHORT).show();
         }
     }
 

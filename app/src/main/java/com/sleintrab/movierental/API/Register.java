@@ -18,6 +18,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import es.dmoral.toasty.Toasty;
+
 /**
  * Created by Niels on 6/13/2017.
  */
@@ -96,7 +98,7 @@ public class Register implements Response.ErrorListener, Response.Listener{
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        Toast.makeText(context, "Failed to register customer.", Toast.LENGTH_SHORT).show();
+        Toasty.error(context, "Failed to register customer.", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -108,7 +110,7 @@ public class Register implements Response.ErrorListener, Response.Listener{
         }
 
         Intent i = new Intent(context, LoginActivity.class);
-        Toast.makeText(context, "Succesfully created a customer.", Toast.LENGTH_SHORT).show();
+        Toasty.success(context, "Succesfully created a customer.", Toast.LENGTH_SHORT).show();
         context.startActivity(i);
     }
 }

@@ -6,10 +6,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sleintrab.movierental.API.EmptyFieldException;
 import com.sleintrab.movierental.API.PasswordsDontMatchException;
 import com.sleintrab.movierental.API.Register;
+
+import es.dmoral.toasty.Toasty;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -36,8 +39,10 @@ public class RegisterActivity extends AppCompatActivity {
                     confirmPassword.getText().toString());
         }catch(EmptyFieldException e){
             e.printStackTrace();
+            Toasty.error(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }catch(PasswordsDontMatchException e){
             e.printStackTrace();
+            Toasty.error(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 }
