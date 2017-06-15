@@ -36,6 +36,7 @@ public class RentFragment extends Fragment implements MovieAPI.OnMoviesAvailable
         super.onActivityCreated(savedInstanceState);
         movieAPI = new MovieAPI(getActivity().getApplicationContext(), this);
         movieListView = (ListView)getView().findViewById(R.id.rent_movie_listView);
+        movieAPI.retrieveMovies();
     }
 
     @Override
