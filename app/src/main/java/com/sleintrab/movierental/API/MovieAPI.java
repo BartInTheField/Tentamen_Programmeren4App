@@ -12,6 +12,7 @@ import com.android.volley.VolleyError;
 import com.sleintrab.movierental.BuildConfig;
 import com.sleintrab.movierental.DomainModel.Movie;
 import com.sleintrab.movierental.Volley.JSONObjectRequest;
+import com.sleintrab.movierental.Volley.VolleyRequestQueue;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,6 +41,8 @@ public class MovieAPI implements Response.Listener, Response.ErrorListener {
     public MovieAPI(Context context,OnMoviesAvailable listener){
         this.context = context;
         this.listener = listener;
+
+        mQueue = VolleyRequestQueue.getInstance(context.getApplicationContext()).getRequestQueue();
     }
 
     public void retrieveMovies(){
