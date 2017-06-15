@@ -1,4 +1,4 @@
-package com.sleintrab.movierental;
+package com.sleintrab.movierental.PresentationLayer;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.sleintrab.movierental.API.EmptyFieldException;
 import com.sleintrab.movierental.API.PasswordsDontMatchException;
 import com.sleintrab.movierental.API.Register;
+import com.sleintrab.movierental.R;
 
 import es.dmoral.toasty.Toasty;
 

@@ -8,8 +8,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.sleintrab.movierental.HomeActivity;
-import com.sleintrab.movierental.LoginActivity;
+import com.sleintrab.movierental.PresentationLayer.LoginActivity;
 import com.sleintrab.movierental.Volley.JSONObjectRequest;
 import com.sleintrab.movierental.Volley.VolleyRequestQueue;
 
