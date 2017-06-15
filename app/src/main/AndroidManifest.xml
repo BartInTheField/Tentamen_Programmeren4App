@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".PresentationLayer.HomeActivity"></activity>
-        <activity android:name=".PresentationLayer.RegisterActivity"></activity>
+        <activity android:name=".PresentationLayer.RegisterActivity"/>
     </application>
 
 </manifest>

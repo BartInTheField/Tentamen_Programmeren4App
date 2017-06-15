@@ -2,12 +2,15 @@ package com.sleintrab.movierental.API;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.sleintrab.movierental.BuildConfig;
+import com.sleintrab.movierental.DomainModel.Customer;
 import com.sleintrab.movierental.Volley.JSONObjectRequest;
 import com.sleintrab.movierental.Volley.VolleyRequestQueue;
 
@@ -24,7 +27,7 @@ import es.dmoral.toasty.Toasty;
 public class Login implements Response.ErrorListener, Response.Listener {
 
     private final String SHAREDACCESTOKEN = "ACCESTOKEN";
-    private final String URL = "URLFORAPI";
+    private final String URL = BuildConfig.SERVER_URL + "login";
 
     private SharedPreferences accesToken;
     private SharedPreferences.Editor accesTokenEdit;
@@ -34,9 +37,9 @@ public class Login implements Response.ErrorListener, Response.Listener {
 
     private static Context context;
 
-    private WhenLoginSuccess listener = null;
+    private  OnLoginSuccess listener = null;
 
-    public Login(Context context, WhenLoginSuccess listener) {
+    public Login(Context context,  OnLoginSuccess listener) {
         this.context = context;
         this.listener = listener;
 
@@ -47,7 +50,7 @@ public class Login implements Response.ErrorListener, Response.Listener {
         mQueue = VolleyRequestQueue.getInstance(context.getApplicationContext()).getRequestQueue();
     }
 
-    public void LoginAccount(String email, String password) {
+    public void loginAccount(String email, String password) {
 
         final JSONObjectRequest req = new JSONObjectRequest(Request.Method.POST,
                 URL,
@@ -89,14 +92,26 @@ public class Login implements Response.ErrorListener, Response.Listener {
             e.printStackTrace();
         }
 
-        accesTokenEdit.putString("token", jsonResponse.optString("token"));
-        accesTokenEdit.putString("email", jsonResponse.optString("email"));
+        setSharedPreference(jsonResponse);
+        listener.onLoginSuccess(createCustomer(jsonResponse));
+}
+
+    private void setSharedPreference(JSONObject json){
+        accesTokenEdit.putString("token", json.optString("token"));
+        accesTokenEdit.putString("email", json.optString("email"));
         accesTokenEdit.commit();
-        listener.WhenLoginSuccess();
+    }
+
+    private Customer createCustomer(JSONObject json){
+        Customer c = new Customer(json.optInt("ÏD"),
+                json.optString("firstname"),
+                json.optString("lastname"),
+                json.optString("email"));
+        return c;
     }
 
     //call back interface
-    public interface WhenLoginSuccess {
-        void WhenLoginSuccess();
+    public interface OnLoginSuccess {
+        void onLoginSuccess(Customer customer);
     }
 }

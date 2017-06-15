@@ -5,4 +5,5 @@
     <color name="colorAccent">#88D317</color>
     <color name="strokeButton">#535353</color>
     <color name="divider">#535353</color>
+    <color name="white">#FFF</color>
 </resources>
