@@ -13,7 +13,7 @@ import com.sleintrab.movierental.R;
  * Created by Niels on 6/15/2017.
  */
 
-public class HireFragment extends Fragment {
+public class RentFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
