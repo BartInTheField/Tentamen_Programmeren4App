@@ -24,7 +24,7 @@ public class HomeActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         footer = (ConstraintLayout)findViewById(R.id.footer);
-        filmsButton = (ImageView)footer.findViewById(R.id.home_Films);
+        filmsButton = (ImageView)footer.findViewById(R.id.home_movies);
 
         openFragment(new RentFragment());
 

@@ -7,7 +7,7 @@
     android:layout_alignParentBottom="true">
 
     <ImageView
-        android:id="@+id/home_rentedFilms"
+        android:id="@+id/home_rentedMovies"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_movie"
@@ -24,7 +24,7 @@
     <ImageView
         android:src="@drawable/ic_store"
         android:tint="@android:color/white"
-        android:id="@+id/home_Films"
+        android:id="@+id/home_movies"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintRight_toLeftOf="@+id/guideline"

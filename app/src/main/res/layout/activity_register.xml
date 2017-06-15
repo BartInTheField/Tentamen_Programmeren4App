@@ -86,7 +86,6 @@
             android:gravity="bottom"
             android:textStyle="bold"
             android:text="@string/registerEmail"
-            android:inputType="textEmailAddress"
             android:textColor="@android:color/white"/>
 
         <EditText
