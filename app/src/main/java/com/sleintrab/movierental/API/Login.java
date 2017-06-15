@@ -2,6 +2,7 @@ package com.sleintrab.movierental.API;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -24,7 +25,7 @@ import es.dmoral.toasty.Toasty;
 public class Login implements Response.ErrorListener, Response.Listener {
 
     private final String SHAREDACCESTOKEN = "ACCESTOKEN";
-    private final String URL = "URLFORAPI";
+    private final String URL = "https://movierentalserver.herokuapp.com/api/v1/login";
 
     private SharedPreferences accesToken;
     private SharedPreferences.Editor accesTokenEdit;
@@ -94,7 +95,7 @@ public class Login implements Response.ErrorListener, Response.Listener {
         accesTokenEdit.commit();
         listener.WhenLoginSuccess();
     }
-
+    
     //call back interface
     public interface WhenLoginSuccess {
         void WhenLoginSuccess();

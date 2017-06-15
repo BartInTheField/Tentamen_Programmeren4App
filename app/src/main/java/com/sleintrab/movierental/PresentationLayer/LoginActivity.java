@@ -23,10 +23,8 @@ public class LoginActivity extends AppCompatActivity implements Login.WhenLoginS
     }
 
     public void LoginButton(View v){
-        /*new Login(getApplicationContext(), this).LoginAccount(email.getText().toString(),
-                password.getText().toString());*/
-        Intent i = new Intent(getApplicationContext(), HomeActivity.class);
-        startActivity(i);
+        new Login(getApplicationContext(), this).LoginAccount(email.getText().toString(),
+                password.getText().toString());
     }
 
     public void registerButton(View v){
