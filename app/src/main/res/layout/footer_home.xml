@@ -10,7 +10,8 @@
         android:id="@+id/home_rentedFilms"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_tag_faces_white"
+        android:src="@drawable/ic_movie"
+        android:tint="@android:color/white"
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="8dp"
@@ -21,7 +22,8 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline2" />
 
     <ImageView
-        android:src="@drawable/ic_movie_white"
+        android:src="@drawable/ic_store"
+        android:tint="@android:color/white"
         android:id="@+id/home_Films"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
