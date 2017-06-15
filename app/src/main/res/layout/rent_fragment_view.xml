@@ -3,12 +3,12 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="sadfdsa"/>
     <ListView
-        android:id="@+id/hire_movie_listView"
+        android:id="@+id/rent_movie_listView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></ListView>
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        android:fastScrollEnabled="true">
+
+    </ListView>
 </LinearLayout>

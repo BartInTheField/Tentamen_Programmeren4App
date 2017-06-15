@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/no_rentedLayout"
+        android:background="@color/colorPrimaryDark"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center">
+            <ImageView
+                android:layout_gravity="center"
+                android:layout_width="124dp"
+                android:layout_height="124dp"
+                android:src="@drawable/ic_sentiment_very_dissatisfied"
+                android:tint="@color/white"/>
+            <TextView
+                android:id="@+id/notyet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:text="@string/no_films_rented"
+                android:textSize="24sp"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
+
+
+    </FrameLayout>
+
+    <ListView
+        android:id="@+id/rented_movie_listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"></ListView>
+</LinearLayout>
