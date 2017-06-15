@@ -8,6 +8,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.sleintrab.movierental.BuildConfig;
 import com.sleintrab.movierental.PresentationLayer.LoginActivity;
 import com.sleintrab.movierental.Volley.JSONObjectRequest;
 import com.sleintrab.movierental.Volley.VolleyRequestQueue;
@@ -25,7 +26,7 @@ import es.dmoral.toasty.Toasty;
 
 public class Register implements Response.ErrorListener, Response.Listener{
 
-    private final String URL = "https://movierentalserver.herokuapp.com/api/v1/register";
+    private final String URL = BuildConfig.SERVER_URL + "register";
 
     private JSONObject jsonResponse;
     private RequestQueue mQueue;
