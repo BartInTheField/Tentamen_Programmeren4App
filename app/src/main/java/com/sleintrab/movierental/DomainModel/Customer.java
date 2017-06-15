@@ -1,10 +1,12 @@
 package com.sleintrab.movierental.DomainModel;
 
+import java.io.Serializable;
+
 /**
  * Created by barti on 13-Jun-17.
  */
 
-public class Customer {
+public class Customer implements Serializable {
 
     private int id;
     private String firstName;

@@ -7,9 +7,10 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.sleintrab.movierental.API.Login;
+import com.sleintrab.movierental.DomainModel.Customer;
 import com.sleintrab.movierental.R;
 
-public class LoginActivity extends AppCompatActivity implements Login.WhenLoginSuccess {
+public class LoginActivity extends AppCompatActivity implements Login.OnLoginSuccess {
 
     private EditText email, password;
 
@@ -23,10 +24,8 @@ public class LoginActivity extends AppCompatActivity implements Login.WhenLoginS
     }
 
     public void LoginButton(View v){
-        /*new Login(getApplicationContext(), this).LoginAccount(email.getText().toString(),
-                password.getText().toString());*/
-        Intent i = new Intent(getApplicationContext(), HomeActivity.class);
-        startActivity(i);
+        new Login(getApplicationContext(), this).loginAccount(email.getText().toString(),
+                password.getText().toString());
     }
 
     public void registerButton(View v){
@@ -35,8 +34,9 @@ public class LoginActivity extends AppCompatActivity implements Login.WhenLoginS
     }
 
     @Override
-    public void WhenLoginSuccess() {
+    public void onLoginSuccess(Customer customer) {
         Intent i = new Intent(getApplicationContext(), HomeActivity.class);
+        i.putExtra("CUSTOMER", customer);
         startActivity(i);
     }
 }
