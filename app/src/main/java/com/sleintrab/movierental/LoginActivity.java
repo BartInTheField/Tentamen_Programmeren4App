@@ -33,6 +33,7 @@ public class LoginActivity extends AppCompatActivity implements Login.WhenLoginS
 
     @Override
     public void WhenLoginSuccess() {
-
+        Intent i = new Intent(getApplicationContext(), HomeActivity.class);
+        startActivity(i);
     }
 }

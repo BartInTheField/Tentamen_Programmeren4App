@@ -87,7 +87,6 @@ public class Login implements Response.ErrorListener, Response.Listener {
     public void onResponse(Object response) {
         try {
             jsonResponse = new JSONObject(response.toString());
-            listener.WhenLoginSuccess();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -95,8 +94,7 @@ public class Login implements Response.ErrorListener, Response.Listener {
         accesTokenEdit.putString("token", jsonResponse.optString("token"));
         accesTokenEdit.putString("email", jsonResponse.optString("email"));
         accesTokenEdit.commit();
-        Intent i = new Intent(context, HomeActivity.class);
-        context.startActivity(i);
+        listener.WhenLoginSuccess();
     }
 
     //call back interface
