@@ -17,6 +17,7 @@ public class HomeActivity extends FragmentActivity {
 
     private ConstraintLayout footer;
     private ImageView filmsButton;
+    private ImageView rentedButton;
     private Fragment selectedFragment;
 
     @Override
@@ -25,15 +26,25 @@ public class HomeActivity extends FragmentActivity {
         setContentView(R.layout.activity_home);
         footer = (ConstraintLayout)findViewById(R.id.footer);
         filmsButton = (ImageView)footer.findViewById(R.id.home_Films);
+        rentedButton = (ImageView)footer.findViewById(R.id.home_rentedFilms);
+
 
         openFragment(new RentFragment());
 
         filmsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(selectedFragment instanceof RentFragment){
+                if(selectedFragment instanceof RentedFragment){
                     openFragment(new RentFragment());
-                    Toasty.success(HomeActivity.this, "Geklikt", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        rentedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (selectedFragment instanceof RentFragment){
+                    openFragment(new RentedFragment());
                 }
             }
         });
@@ -44,10 +55,11 @@ public class HomeActivity extends FragmentActivity {
             getSupportFragmentManager().beginTransaction().replace(R.id.FragmentLayout, fragment).commit();
             selectedFragment = fragment;
             if(selectedFragment instanceof RentFragment){
+                rentedButton.setColorFilter(ContextCompat.getColor(HomeActivity.this,R.color.white));
                 filmsButton.setColorFilter(ContextCompat.getColor(HomeActivity.this,R.color.colorAccent));
             }else{
-                //TODO: goede button aangeven
-                //filmsButton.setColorFilter(ContextCompat.getColor(HomeActivity.this,R.color.colorAccent));
+                filmsButton.setColorFilter(ContextCompat.getColor(HomeActivity.this,R.color.white));
+                rentedButton.setColorFilter(ContextCompat.getColor(HomeActivity.this,R.color.colorAccent));
             }
         }
     }
