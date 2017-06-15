@@ -36,8 +36,11 @@ public class Login implements Response.ErrorListener, Response.Listener {
 
     private static Context context;
 
-    public Login(Context context) {
+    private WhenLoginSuccess listener = null;
+
+    public Login(Context context, WhenLoginSuccess listener) {
         this.context = context;
+        this.listener = listener;
 
         accesToken = context.getSharedPreferences(SHAREDACCESTOKEN, Context.MODE_PRIVATE);
         accesTokenEdit = accesToken.edit();
@@ -91,7 +94,11 @@ public class Login implements Response.ErrorListener, Response.Listener {
         accesTokenEdit.putString("token", jsonResponse.optString("token"));
         accesTokenEdit.putString("email", jsonResponse.optString("email"));
         accesTokenEdit.commit();
-        Intent i = new Intent(context, HomeActivity.class);
-        context.startActivity(i);
+        listener.WhenLoginSuccess();
+    }
+
+    //call back interface
+    public interface WhenLoginSuccess {
+        void WhenLoginSuccess();
     }
 }

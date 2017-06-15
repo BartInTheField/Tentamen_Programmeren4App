@@ -8,7 +8,7 @@ import android.widget.EditText;
 
 import com.sleintrab.movierental.API.Login;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements Login.WhenLoginSuccess {
 
     private EditText email, password;
 
@@ -22,12 +22,18 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void LoginButton(View v){
-        new Login(getApplicationContext()).LoginAccount(email.getText().toString(),
+        new Login(getApplicationContext(), this).LoginAccount(email.getText().toString(),
                 password.getText().toString());
     }
 
     public void registerButton(View v){
         Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
+        startActivity(i);
+    }
+
+    @Override
+    public void WhenLoginSuccess() {
+        Intent i = new Intent(getApplicationContext(), HomeActivity.class);
         startActivity(i);
     }
 }
