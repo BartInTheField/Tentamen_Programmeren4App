@@ -9,6 +9,8 @@
 
     <include layout="@layout/toolbar"
         android:id="@+id/toolbar"/>
+    <include layout="@layout/footer_home"
+        android:id="@+id/footer"/>
 
     <FrameLayout
         android:id="@+id/FragmentLayout"
@@ -19,8 +21,7 @@
 
     </FrameLayout>
 
-    <include layout="@layout/footer_home"
-        android:id="@+id/footer"/>
+
 
 
 </RelativeLayout>
