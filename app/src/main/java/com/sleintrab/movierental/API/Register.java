@@ -60,7 +60,8 @@ public class Register implements Response.ErrorListener, Response.Listener{
                 URL,
                 makeBodyJSON(firstName, lastName, email, password),
                 this,
-                this);
+                this,
+                context);
         req.setTag("RegisterTAG");
         mQueue.add(req);
     }

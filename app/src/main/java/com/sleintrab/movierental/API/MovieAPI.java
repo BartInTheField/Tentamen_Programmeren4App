@@ -2,6 +2,7 @@ package com.sleintrab.movierental.API;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -18,7 +19,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Map;
 
 import es.dmoral.toasty.Toasty;
 
@@ -28,32 +31,52 @@ import es.dmoral.toasty.Toasty;
 
 public class MovieAPI implements Response.Listener, Response.ErrorListener {
 
-    private final String URL = BuildConfig.SERVER_URL + "/films";
+    private String URL;
+    private final String SHAREDACCESTOKEN = "ACCESSTOKEN";
 
     private SharedPreferences accesToken;
-    private SharedPreferences.Editor accesTokenEdit;
 
     private RequestQueue mQueue;
 
     private OnMoviesAvailable listener;
     private Context context;
+    private Boolean hasUserID = false;
 
     public MovieAPI(Context context,OnMoviesAvailable listener){
         this.context = context;
         this.listener = listener;
 
+        URL = BuildConfig.SERVER_URL + "films";
+
         mQueue = VolleyRequestQueue.getInstance(context.getApplicationContext()).getRequestQueue();
     }
 
-    public void retrieveMovies(){
+    public MovieAPI(Context context,OnMoviesAvailable listener, int userID){
+        this.context = context;
+        this.listener = listener;
+
+        accesToken = context.getSharedPreferences(SHAREDACCESTOKEN, Context.MODE_PRIVATE);
+        URL = BuildConfig.SERVER_URL + "rentals/" + userID;
+        hasUserID = true;
+
+        mQueue = VolleyRequestQueue.getInstance(context.getApplicationContext()).getRequestQueue();
+    }
+
+    public void retrieveMovies() throws AuthFailureError {
         final JSONObjectRequest req = new JSONObjectRequest(Request.Method.GET,
                 URL,
                 new JSONObject(),
                 this,
-                this);
+                this,
+                context);
         req.setTag("MoviesTAG");
+        if (hasUserID){
+            req.getHeaders().put("X-Access-Token", accesToken.getString("token", ""));
+        }
+        Log.i("HEADERS", req.getHeaders().toString());
         mQueue.add(req);
     }
+
 
     @Override
     public void onErrorResponse(VolleyError error) {
@@ -86,6 +109,9 @@ public class MovieAPI implements Response.Listener, Response.ErrorListener {
                     movieObject.optString("rating"),
                     movieObject.optString("special_features")
                 );
+                if (hasUserID){
+                    movie.setReturnDate(movieObject.optString("return_date"));
+                }
                 movies.add(movie);
             }
         } catch (JSONException e) {
