@@ -39,6 +39,7 @@ public class MovieAPI implements Response.Listener, Response.ErrorListener {
     private RequestQueue mQueue;
 
     private OnMoviesAvailable listener;
+    private NoMoviesAvailable listenerTwo;
     private Context context;
     private Boolean hasUserID = false;
 
@@ -51,9 +52,10 @@ public class MovieAPI implements Response.Listener, Response.ErrorListener {
         mQueue = VolleyRequestQueue.getInstance(context.getApplicationContext()).getRequestQueue();
     }
 
-    public MovieAPI(Context context,OnMoviesAvailable listener, int userID){
+    public MovieAPI(Context context,OnMoviesAvailable listener, NoMoviesAvailable listenerTwo,  int userID){
         this.context = context;
         this.listener = listener;
+        this.listenerTwo = listenerTwo;
 
         accesToken = context.getSharedPreferences(SHAREDACCESTOKEN, Context.MODE_PRIVATE);
         URL = BuildConfig.SERVER_URL + "rentals/" + userID;
@@ -81,7 +83,11 @@ public class MovieAPI implements Response.Listener, Response.ErrorListener {
     @Override
     public void onErrorResponse(VolleyError error) {
         if (error.networkResponse.statusCode == 400) {
-            Toasty.error(context, "Cannot find any movies.", Toast.LENGTH_SHORT).show();
+            if (!hasUserID){
+                Toasty.error(context, "Cannot find any movies.", Toast.LENGTH_SHORT).show();
+            } else {
+                listenerTwo.noMoviesAvailable();
+            }
         } else {
             error.printStackTrace();
             Toasty.error(context, "Failed to retrieve movies", Toast.LENGTH_SHORT).show();
@@ -122,5 +128,9 @@ public class MovieAPI implements Response.Listener, Response.ErrorListener {
 
     public interface OnMoviesAvailable{
         void onMoviesAvailable(ArrayList<Movie> movies);
+    }
+
+    public interface NoMoviesAvailable{
+        void noMoviesAvailable();
     }
 }
