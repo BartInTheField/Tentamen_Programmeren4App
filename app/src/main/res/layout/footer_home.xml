@@ -5,6 +5,10 @@
     android:layout_height="wrap_content"
     android:background="@color/colorPrimary"
     android:layout_alignParentBottom="true">
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="@color/dividerFooter" />
 
     <ImageView
         android:id="@+id/home_rentedMovies"
@@ -47,7 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/guideline2"
-        app:layout_constraintGuide_begin="56dp"
+        app:layout_constraintGuide_begin="58dp"
         android:orientation="horizontal" />
 
 

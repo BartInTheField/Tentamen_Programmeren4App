@@ -38,5 +38,5 @@
         android:id="@+id/rented_movie_listView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary"></ListView>
+        android:background="@color/colorPrimaryDarker"></ListView>
 </LinearLayout>
