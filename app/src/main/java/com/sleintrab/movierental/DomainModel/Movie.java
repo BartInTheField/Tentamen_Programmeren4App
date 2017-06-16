@@ -1,5 +1,7 @@
 package com.sleintrab.movierental.DomainModel;
 
+import java.sql.Date;
+
 /**
  * Created by Niels on 6/15/2017.
  */
@@ -16,6 +18,7 @@ public class Movie {
     private double replacementCost;
     private String rating;
     private String specialFeatures;
+    private String returnDate;
 
     public Movie(int ID, String title, String description, int releaseYear, int rentalDuration, double price, int length, double replacementCost, String rating, String specialFeatures) {
         this.ID = ID;
@@ -28,6 +31,20 @@ public class Movie {
         this.replacementCost = replacementCost;
         this.rating = rating;
         this.specialFeatures = specialFeatures;
+    }
+
+    public Movie(int ID, String title, String description, int releaseYear, int rentalDuration, double price, int length, double replacementCost, String rating, String specialFeatures, String returnDate) {
+        this.ID = ID;
+        this.title = title;
+        this.description = description;
+        this.releaseYear = releaseYear;
+        this.rentalDuration = rentalDuration;
+        this.price = price;
+        this.length = length;
+        this.replacementCost = replacementCost;
+        this.rating = rating;
+        this.specialFeatures = specialFeatures;
+        this.returnDate = returnDate;
     }
 
     public int getID() {
@@ -124,5 +141,13 @@ public class Movie {
                 ", rating='" + rating + '\'' +
                 ", specialFeatures='" + specialFeatures + '\'' +
                 '}';
+    }
+
+    public String getReturnDate() {
+        return returnDate;
+    }
+
+    public void setReturnDate(String returnDate) {
+        this.returnDate = returnDate;
     }
 }

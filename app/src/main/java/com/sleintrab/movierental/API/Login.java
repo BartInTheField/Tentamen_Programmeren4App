@@ -26,7 +26,7 @@ import es.dmoral.toasty.Toasty;
 
 public class Login implements Response.ErrorListener, Response.Listener {
 
-    private final String SHAREDACCESTOKEN = "ACCESTOKEN";
+    private final String SHAREDACCESTOKEN = "ACCESSTOKEN";
     private final String URL = BuildConfig.SERVER_URL + "login";
 
     private SharedPreferences accesToken;
@@ -56,7 +56,8 @@ public class Login implements Response.ErrorListener, Response.Listener {
                 URL,
                 makeBodyJSON(email, password),
                 this,
-                this);
+                this,
+                context);
         req.setTag("LoginTAG");
         mQueue.add(req);
     }
@@ -103,7 +104,7 @@ public class Login implements Response.ErrorListener, Response.Listener {
     }
 
     private Customer createCustomer(JSONObject json){
-        Customer c = new Customer(json.optInt("ÏD"),
+        Customer c = new Customer(json.optInt("ID"),
                 json.optString("firstname"),
                 json.optString("lastname"),
                 json.optString("email"));

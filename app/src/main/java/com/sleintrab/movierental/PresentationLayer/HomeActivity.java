@@ -5,10 +5,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.sleintrab.movierental.DomainModel.Customer;
 import com.sleintrab.movierental.R;
 
 import es.dmoral.toasty.Toasty;
@@ -19,11 +21,15 @@ public class HomeActivity extends FragmentActivity {
     private ImageView filmsButton;
     private ImageView rentedButton;
     private Fragment selectedFragment;
+    private Customer customer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        customer = (Customer) getIntent().getExtras().getSerializable("CUSTOMER");
+
         footer = (ConstraintLayout)findViewById(R.id.footer);
         filmsButton = (ImageView)footer.findViewById(R.id.home_movies);
         rentedButton = (ImageView)footer.findViewById(R.id.home_rentedMovies);
@@ -62,5 +68,9 @@ public class HomeActivity extends FragmentActivity {
                 rentedButton.setColorFilter(ContextCompat.getColor(HomeActivity.this,R.color.colorAccent));
             }
         }
+    }
+
+    public Customer getCustomer() {
+        return customer;
     }
 }

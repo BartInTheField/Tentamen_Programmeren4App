@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.android.volley.AuthFailureError;
 import com.sleintrab.movierental.API.MovieAPI;
 import com.sleintrab.movierental.DomainModel.Movie;
 import com.sleintrab.movierental.R;
@@ -36,7 +37,12 @@ public class RentFragment extends Fragment implements MovieAPI.OnMoviesAvailable
         super.onActivityCreated(savedInstanceState);
         movieAPI = new MovieAPI(getActivity().getApplicationContext(), this);
         movieListView = (ListView)getView().findViewById(R.id.rent_movie_listView);
-        movieAPI.retrieveMovies();
+
+        try {
+            movieAPI.retrieveMovies();
+        } catch (AuthFailureError authFailureError) {
+            authFailureError.printStackTrace();
+        }
     }
 
     @Override
