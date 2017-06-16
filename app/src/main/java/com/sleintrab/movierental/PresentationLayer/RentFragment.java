@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.android.volley.AuthFailureError;
 import com.sleintrab.movierental.API.MovieAPI;
@@ -29,7 +30,6 @@ public class RentFragment extends Fragment implements MovieAPI.OnMoviesAvailable
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 
         return inflater.inflate(R.layout.rent_fragment_view,container,false);
-
     }
 
     @Override
@@ -48,6 +48,11 @@ public class RentFragment extends Fragment implements MovieAPI.OnMoviesAvailable
     @Override
     public void onMoviesAvailable(ArrayList<Movie> movies) {
         movieListAdapter = new MovieListAdapter(getActivity().getApplicationContext(), movies);
+
+        ProgressBar spinner = (ProgressBar)getView().findViewById(R.id.loadingBar);
+        spinner.setVisibility(View.GONE);
+
         movieListView.setAdapter(movieListAdapter);
+
     }
 }
