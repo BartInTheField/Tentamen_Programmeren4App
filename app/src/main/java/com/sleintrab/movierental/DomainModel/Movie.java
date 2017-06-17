@@ -19,18 +19,6 @@ public class Movie {
     private String rating;
     private String specialFeatures;
 
-    private String returnDate;
-
-    public int getInventoryID() {
-        return inventoryID;
-    }
-
-    public void setInventoryID(int inventoryID) {
-        this.inventoryID = inventoryID;
-    }
-
-    private int inventoryID;
-
     public Movie(int ID, String title, String description, int releaseYear, int rentalDuration, double price, int length, double replacementCost, String rating, String specialFeatures) {
         this.ID = ID;
         this.title = title;
@@ -42,22 +30,6 @@ public class Movie {
         this.replacementCost = replacementCost;
         this.rating = rating;
         this.specialFeatures = specialFeatures;
-    }
-
-    public Movie(int ID, String title, String description, int releaseYear, int rentalDuration, double price, int length, double replacementCost, String rating, String specialFeatures, String returnDate, int inventoryID) {
-        this.ID = ID;
-        this.title = title;
-        this.description = description;
-        this.releaseYear = releaseYear;
-        this.rentalDuration = rentalDuration;
-        this.price = price;
-        this.length = length;
-        this.replacementCost = replacementCost;
-        this.rating = rating;
-        this.specialFeatures = specialFeatures;
-        this.returnDate = returnDate;
-        this.inventoryID = inventoryID;
-
     }
 
     public int getID() {
@@ -154,13 +126,5 @@ public class Movie {
                 ", rating='" + rating + '\'' +
                 ", specialFeatures='" + specialFeatures + '\'' +
                 '}';
-    }
-
-    public String getReturnDate() {
-        return returnDate;
-    }
-
-    public void setReturnDate(String returnDate) {
-        this.returnDate = returnDate;
     }
 }

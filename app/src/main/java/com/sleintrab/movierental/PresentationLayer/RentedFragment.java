@@ -20,6 +20,7 @@ import com.sleintrab.movierental.API.MovieAPI;
 import com.sleintrab.movierental.API.RentalAPI;
 import com.sleintrab.movierental.DomainModel.Customer;
 import com.sleintrab.movierental.DomainModel.Movie;
+import com.sleintrab.movierental.DomainModel.Rental;
 import com.sleintrab.movierental.R;
 
 import java.util.ArrayList;
@@ -28,16 +29,17 @@ import java.util.ArrayList;
  * Created by Niels on 6/15/2017.
  */
 
-public class RentedFragment extends Fragment implements MovieAPI.OnMoviesAvailable, MovieAPI.NoMoviesAvailable, RentalAPI.OnRentalSuccess {
+public class RentedFragment extends Fragment implements RentalAPI.OnRentalSuccess, RentalAPI.OnRentalsAvailable{
 
     private ListView rentedListView;
     private RentedListAdapter rentedListAdapter;
-    private MovieAPI movieAPI;
+    private RentalAPI rentalAPI;
     private FrameLayout spinner;
-    private ArrayList<Movie> movies;
+    private ArrayList<Rental> rentals;
     private AlertDialog dialog;
     private Customer customer;
     private ProgressDialog pd;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         return inflater.inflate(R.layout.rented_fragment_view,container,false);
@@ -48,32 +50,20 @@ public class RentedFragment extends Fragment implements MovieAPI.OnMoviesAvailab
         super.onActivityCreated(savedInstanceState);
         customer = ((HomeActivity) getActivity()).getCustomer();
         rentedListView = (ListView)getView().findViewById(R.id.rented_movie_listView);
-        loadMovies();
+        loadRentals();
     }
 
-    private void loadMovies(){
-        movieAPI = new MovieAPI(getActivity().getApplicationContext(), this, this,
-                customer.getId());
+    private void loadRentals(){
+        rentalAPI = new RentalAPI(getActivity().getApplicationContext(), this, this);
 
         spinner = (FrameLayout) getView().findViewById(R.id.loadingLayout);
         spinner.setVisibility(View.VISIBLE);
 
         try {
-            movieAPI.retrieveMovies();
+            rentalAPI.getRentals(customer.getId());
         } catch (AuthFailureError authFailureError) {
             authFailureError.printStackTrace();
         }
-    }
-
-    @Override
-    public void onMoviesAvailable(ArrayList<Movie> movies) {
-        this.movies = movies;
-        rentedListAdapter = new RentedListAdapter(getActivity().getApplicationContext(), movies);
-        rentedListView.setAdapter(rentedListAdapter);
-
-        setOnItemClick();
-
-        spinner.setVisibility(View.GONE);
     }
 
     private void setOnItemClick(){
@@ -83,7 +73,7 @@ public class RentedFragment extends Fragment implements MovieAPI.OnMoviesAvailab
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setMessage("Are you sure you want to hand in this movie?");
-                builder.setTitle("HAND IN '" + movies.get(position).getTitle() + "'");
+                builder.setTitle("HAND IN '" + rentals.get(position).getMovie().getTitle() + "'");
                 builder.setPositiveButton("Yes, hand in", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -103,9 +93,13 @@ public class RentedFragment extends Fragment implements MovieAPI.OnMoviesAvailab
         });
     }
 
-    private void doRentalAPIHandIn(int moviePosition){
-        new RentalAPI(getContext(), this).handInRental(customer.getId(),
-                movies.get(moviePosition).getInventoryID());
+    private void doRentalAPIHandIn(int rentalPosition){
+        try {
+            new RentalAPI(getContext(), this,this).handInRental(customer.getId(),
+                    rentals.get(rentalPosition).getInventoryID());
+        } catch (AuthFailureError authFailureError) {
+            authFailureError.printStackTrace();
+        }
         showProgressDialog();
 
     }
@@ -117,18 +111,21 @@ public class RentedFragment extends Fragment implements MovieAPI.OnMoviesAvailab
     }
 
     @Override
-    public void noMoviesAvailable() {
-        FrameLayout frameLayout = (FrameLayout) getView().findViewById(R.id.no_rentedLayout);
-        frameLayout.setVisibility(View.VISIBLE);
-
-        spinner.setVisibility(View.GONE);
-    }
-
-    @Override
     public void onRentalSuccess() {
         pd.cancel();
         dialog.dismiss();
-        loadMovies();
+        loadRentals();
+    }
+
+    @Override
+    public void onRentalsAvailable(ArrayList<Rental> rentals) {
+        this.rentals = rentals;
+        rentedListAdapter = new RentedListAdapter(getActivity().getApplicationContext(), rentals);
+        rentedListView.setAdapter(rentedListAdapter);
+
+        setOnItemClick();
+
+        spinner.setVisibility(View.GONE);
     }
 }
 
