@@ -49,6 +49,16 @@ public class RentalAPI implements Response.ErrorListener, Response.Listener {
         mQueue.add(req);
     }
 
+    public void makeRental(int customerID, int inventoryID){
+        final JSONObjectRequest req = new JSONObjectRequest(Request.Method.POST,
+                URL + customerID + "/" + inventoryID,
+                new JSONObject(),
+                this,
+                this,
+                context);
+        req.setTag("makeRentalTAG");
+        mQueue.add(req);
+    }
 
     @Override
     public void onErrorResponse(VolleyError error) {
