@@ -153,7 +153,6 @@ public class RentedFragment extends Fragment implements RentalAPI.OnRentalSucces
 
     @Override
     public void onActiveRentalsAvailable(ArrayList<Integer> inventoryIDs) {
-        this.inventoryIDs = inventoryIDs;
     }
 }
 

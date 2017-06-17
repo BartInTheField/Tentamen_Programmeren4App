@@ -91,6 +91,7 @@ public class RentalAPI implements Response.ErrorListener, Response.Listener {
                 this,
                 context);
         req.setTag("activeRentalsTAG");
+        isActiveRentalRequest = true;
         mQueue.add(req);
     }
 
@@ -135,11 +136,12 @@ public class RentalAPI implements Response.ErrorListener, Response.Listener {
             }
             getListener.onRentalsAvailable(rentals);
         } else if (isActiveRentalRequest){
+            isActiveRentalRequest = false;
             JSONObject jsonResponse;
             ArrayList<Integer> inventoryIDs = new ArrayList<>();
             try {
                 jsonResponse = new JSONObject(response.toString());
-                JSONArray inventoryIDArray = jsonResponse.getJSONArray("Movies");
+                JSONArray inventoryIDArray = jsonResponse.getJSONArray("Active");
                 for (int i = 0; i < inventoryIDArray.length(); i++) {
                     JSONObject idObject = inventoryIDArray.getJSONObject(i);
                     inventoryIDs.add(idObject.optInt("inventory_id"));
