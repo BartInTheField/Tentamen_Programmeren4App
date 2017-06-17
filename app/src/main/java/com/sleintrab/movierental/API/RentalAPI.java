@@ -36,14 +36,16 @@ public class RentalAPI implements Response.ErrorListener, Response.Listener {
     private static Context context;
 
     private OnRentalSuccess listener = null;
+    private OnRentalFailed errorListener;
     private OnRentalsAvailable getListener = null;
 
     private Boolean isGETRequest = false;
 
-    public RentalAPI(Context context, OnRentalSuccess listener, OnRentalsAvailable getListener){
+    public RentalAPI(Context context, OnRentalSuccess listener, OnRentalsAvailable getListener, OnRentalFailed errorListener){
         this.context = context;
         this.listener = listener;
         this.getListener = getListener;
+        this. errorListener = errorListener;
 
         mQueue = VolleyRequestQueue.getInstance(context.getApplicationContext()).getRequestQueue();
     }
@@ -86,7 +88,7 @@ public class RentalAPI implements Response.ErrorListener, Response.Listener {
     @Override
     public void onErrorResponse(VolleyError error) {
         error.printStackTrace();
-        Toasty.error(context, "Failed", Toast.LENGTH_SHORT).show();
+        errorListener.onRentalFailed();
     }
 
     @Override
@@ -133,5 +135,9 @@ public class RentalAPI implements Response.ErrorListener, Response.Listener {
 
     public interface OnRentalsAvailable {
         void onRentalsAvailable(ArrayList<Rental> rentals);
+
+    public interface OnRentalFailed{
+        void onRentalFailed();
+
     }
 }
