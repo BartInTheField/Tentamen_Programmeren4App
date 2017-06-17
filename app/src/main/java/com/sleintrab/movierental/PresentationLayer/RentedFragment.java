@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -42,6 +43,8 @@ public class RentedFragment extends Fragment implements RentalAPI.OnRentalSucces
     private AlertDialog dialog;
     private Customer customer;
     private ProgressDialog pd;
+    private Boolean pdIsVisible = false;
+    private Boolean loadingRentals = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -58,6 +61,7 @@ public class RentedFragment extends Fragment implements RentalAPI.OnRentalSucces
 
     private void loadRentals(){
         rentalAPI = new RentalAPI(getActivity().getApplicationContext(), this, this, this, this);
+        loadingRentals = true;
 
         spinner = (FrameLayout) getView().findViewById(R.id.loadingLayout);
         spinner.setVisibility(View.VISIBLE);
@@ -104,10 +108,10 @@ public class RentedFragment extends Fragment implements RentalAPI.OnRentalSucces
             authFailureError.printStackTrace();
         }
         showProgressDialog();
-
     }
 
     private void showProgressDialog(){
+        pdIsVisible = true;
         pd = new ProgressDialog(getContext());
         pd.setMessage("Handing in movie...");
         pd.show();
@@ -115,6 +119,7 @@ public class RentedFragment extends Fragment implements RentalAPI.OnRentalSucces
 
     @Override
     public void onRentalSuccess() {
+        pdIsVisible = false;
         pd.cancel();
         dialog.dismiss();
         loadRentals();
@@ -133,13 +138,22 @@ public class RentedFragment extends Fragment implements RentalAPI.OnRentalSucces
 
     @Override
     public void onRentalFailed() {
-        pd.cancel();
+      if (pdIsVisible){
+            spinner.setVisibility(View.GONE);
+            pd.cancel();
+            Toasty.error(getContext(), "Error occurred while handing in movie, please try again.", Toast.LENGTH_SHORT).show();
+        } else if (loadingRentals){
+            loadingRentals = false;
+            spinner.setVisibility(View.GONE);
+            FrameLayout noRented = (FrameLayout) getView().findViewById(R.id.no_rentedLayout);
+            noRented.setVisibility(View.VISIBLE);
+        }
         Toasty.error(getContext(), "You have no rented movies at the moment.", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onActiveRentalsAvailable(ArrayList<Integer> inventoryIDs) {
-
+        this.inventoryIDs = inventoryIDs;
     }
 }
 
