@@ -24,7 +24,7 @@ import es.dmoral.toasty.Toasty;
  * Created by Niels on 6/13/2017.
  */
 
-public class Register implements Response.ErrorListener, Response.Listener{
+public class RegisterAPI implements Response.ErrorListener, Response.Listener{
 
     private final String URL = BuildConfig.SERVER_URL + "register";
 
@@ -34,7 +34,7 @@ public class Register implements Response.ErrorListener, Response.Listener{
     private static Context context;
     private OnRegisterSuccess listener;
 
-    public Register(Context context, OnRegisterSuccess listener){
+    public RegisterAPI(Context context, OnRegisterSuccess listener){
         this.context = context;
         this.listener = listener;
         mQueue = VolleyRequestQueue.getInstance(context.getApplicationContext()).getRequestQueue();
@@ -60,7 +60,8 @@ public class Register implements Response.ErrorListener, Response.Listener{
                 URL,
                 makeBodyJSON(firstName, lastName, email, password),
                 this,
-                this);
+                this,
+                context);
         req.setTag("RegisterTAG");
         mQueue.add(req);
     }

@@ -2,6 +2,7 @@ package com.sleintrab.movierental.API;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -18,7 +19,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Map;
 
 import es.dmoral.toasty.Toasty;
 
@@ -28,10 +31,7 @@ import es.dmoral.toasty.Toasty;
 
 public class MovieAPI implements Response.Listener, Response.ErrorListener {
 
-    private final String URL = BuildConfig.SERVER_URL + "/films";
-
-    private SharedPreferences accesToken;
-    private SharedPreferences.Editor accesTokenEdit;
+    private String URL;
 
     private RequestQueue mQueue;
 
@@ -42,18 +42,23 @@ public class MovieAPI implements Response.Listener, Response.ErrorListener {
         this.context = context;
         this.listener = listener;
 
+        URL = BuildConfig.SERVER_URL + "films";
+
         mQueue = VolleyRequestQueue.getInstance(context.getApplicationContext()).getRequestQueue();
     }
 
-    public void retrieveMovies(){
+    public void retrieveMovies() throws AuthFailureError {
         final JSONObjectRequest req = new JSONObjectRequest(Request.Method.GET,
                 URL,
                 new JSONObject(),
                 this,
-                this);
+                this,
+                context);
         req.setTag("MoviesTAG");
+        Log.i("HEADERS", req.getHeaders().toString());
         mQueue.add(req);
     }
+
 
     @Override
     public void onErrorResponse(VolleyError error) {

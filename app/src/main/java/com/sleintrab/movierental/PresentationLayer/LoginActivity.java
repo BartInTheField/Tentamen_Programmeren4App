@@ -7,11 +7,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-import com.sleintrab.movierental.API.Login;
+import com.sleintrab.movierental.API.LoginAPI;
 import com.sleintrab.movierental.DomainModel.Customer;
 import com.sleintrab.movierental.R;
 
-public class LoginActivity extends AppCompatActivity implements Login.OnLoginSuccess {
+public class LoginActivity extends AppCompatActivity implements LoginAPI.OnLoginSuccess {
 
     private EditText email, password;
     private ProgressDialog pd;
@@ -26,7 +26,7 @@ public class LoginActivity extends AppCompatActivity implements Login.OnLoginSuc
     }
 
     public void LoginButton(View v){
-        new Login(getApplicationContext(), this).loginAccount(email.getText().toString(),
+        new LoginAPI(getApplicationContext(), this).loginAccount(email.getText().toString(),
                 password.getText().toString());
         showProgressDialog();
     }

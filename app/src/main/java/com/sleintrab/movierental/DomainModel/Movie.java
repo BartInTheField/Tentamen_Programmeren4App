@@ -1,5 +1,7 @@
 package com.sleintrab.movierental.DomainModel;
 
+import java.sql.Date;
+
 /**
  * Created by Niels on 6/15/2017.
  */
