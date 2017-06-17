@@ -24,7 +24,7 @@ import es.dmoral.toasty.Toasty;
  */
 
 
-public class Login implements Response.ErrorListener, Response.Listener {
+public class LoginAPI implements Response.ErrorListener, Response.Listener {
 
     private final String SHAREDACCESTOKEN = "ACCESSTOKEN";
     private final String URL = BuildConfig.SERVER_URL + "login";
@@ -39,7 +39,7 @@ public class Login implements Response.ErrorListener, Response.Listener {
 
     private  OnLoginSuccess listener = null;
 
-    public Login(Context context,  OnLoginSuccess listener) {
+    public LoginAPI(Context context, OnLoginSuccess listener) {
         this.context = context;
         this.listener = listener;
 

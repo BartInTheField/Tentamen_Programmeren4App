@@ -5,7 +5,7 @@
     <string name="login">Login</string>
     <string name="register">Register</string>
 
-    <!-- Register Activity -->
+    <!-- RegisterAPI Activity -->
     <string name="registerFirstName">First name:</string>
     <string name="registerLastName">Last name:</string>
     <string name="registerEmail">Email:</string>

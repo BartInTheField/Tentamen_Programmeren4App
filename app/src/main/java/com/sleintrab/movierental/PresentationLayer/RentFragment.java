@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.android.volley.AuthFailureError;
+import com.sleintrab.movierental.API.CopyAPI;
 import com.sleintrab.movierental.API.MovieAPI;
 import com.sleintrab.movierental.DomainModel.Movie;
 import com.sleintrab.movierental.R;
@@ -20,11 +21,12 @@ import java.util.ArrayList;
  * Created by Niels on 6/15/2017.
  */
 
-public class RentFragment extends Fragment implements MovieAPI.OnMoviesAvailable {
+public class RentFragment extends Fragment implements MovieAPI.OnMoviesAvailable, CopyAPI.OnCopyAvailable, CopyAPI.NoCopyAvailable {
 
     private ListView movieListView;
     private MovieListAdapter movieListAdapter;
     private MovieAPI movieAPI;
+    private CopyAPI copyAPI;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -53,6 +55,16 @@ public class RentFragment extends Fragment implements MovieAPI.OnMoviesAvailable
         spinner.setVisibility(View.GONE);
 
         movieListView.setAdapter(movieListAdapter);
+
+    }
+
+    @Override
+    public void onCopyAvailable(int copyID) {
+
+    }
+
+    @Override
+    public void noCopyAvailable() {
 
     }
 }
