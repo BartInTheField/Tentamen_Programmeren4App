@@ -34,7 +34,6 @@ public class MovieCopiesActivity extends AppCompatActivity implements RentalAPI.
     private Customer customer;
     private ListView copyListView;
     private CopyListAdapter copyListAdapter;
-    private ArrayList<Copy> copies = new ArrayList<>();
     private ArrayList<Integer> inventoryIDs = new ArrayList<>();
 
     @Override
@@ -73,7 +72,6 @@ public class MovieCopiesActivity extends AppCompatActivity implements RentalAPI.
                     authFailureError.printStackTrace();
                 }
 
-                showProgressDialog();
                 dialog.cancel();
             }
         });
@@ -89,11 +87,6 @@ public class MovieCopiesActivity extends AppCompatActivity implements RentalAPI.
         dialog.show();
     }
 
-    private void showProgressDialog(){
-        pd = new ProgressDialog(this);
-        pd.setMessage("Renting movie...");
-        pd.show();
-    }
 
     @Override
     public void onCopiesAvailable(ArrayList<Copy> copies) {
@@ -107,6 +100,7 @@ public class MovieCopiesActivity extends AppCompatActivity implements RentalAPI.
                     break;
                 }
             }
+            Log.i("TAGGG", String.valueOf(r.isActive()));
             rentals.add(r);
         }
         copyListAdapter = new CopyListAdapter(getApplicationContext(), rentals);
@@ -135,13 +129,11 @@ public class MovieCopiesActivity extends AppCompatActivity implements RentalAPI.
 
     @Override
     public void onRentalSuccess() {
-        pd.cancel();
         Toasty.success(getApplicationContext(), "Successfully rented movie!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onRentalFailed() {
-        pd.cancel();
         Toasty.error(getApplicationContext(), "Error occurred while renting movie, please try again.", Toast.LENGTH_SHORT).show();
     }
 
@@ -153,5 +145,8 @@ public class MovieCopiesActivity extends AppCompatActivity implements RentalAPI.
     @Override
     public void onActiveRentalsAvailable(ArrayList<Integer> inventoryIDs) {
         this.inventoryIDs = inventoryIDs;
+        for (int i = 0; i < this.inventoryIDs.size(); i++) {
+            Log.i("TAGAGA", String.valueOf(this.inventoryIDs.get(i)));
+        }
     }
 }
