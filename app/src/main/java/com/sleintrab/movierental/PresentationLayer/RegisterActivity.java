@@ -1,22 +1,19 @@
 package com.sleintrab.movierental.PresentationLayer;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sleintrab.movierental.API.EmptyFieldException;
 import com.sleintrab.movierental.API.PasswordsDontMatchException;
-import com.sleintrab.movierental.API.Register;
+import com.sleintrab.movierental.API.RegisterAPI;
 import com.sleintrab.movierental.R;
 
 import es.dmoral.toasty.Toasty;
 
-public class RegisterActivity extends AppCompatActivity implements Register.OnRegisterSuccess {
+public class RegisterActivity extends AppCompatActivity implements RegisterAPI.OnRegisterSuccess {
 
     private EditText firstName, lastName, email, password, confirmPassword;
 
@@ -36,7 +33,7 @@ public class RegisterActivity extends AppCompatActivity implements Register.OnRe
 
     public void registerButton(View v){
         try{
-            new Register(getApplicationContext(), this).RegisterCustomer(firstName.getText().toString(),
+            new RegisterAPI(getApplicationContext(), this).RegisterCustomer(firstName.getText().toString(),
                     lastName.getText().toString(), email.getText().toString(),password.getText().toString(),
                     confirmPassword.getText().toString());
         }catch(EmptyFieldException e){
