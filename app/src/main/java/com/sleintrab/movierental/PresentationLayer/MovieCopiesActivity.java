@@ -131,6 +131,7 @@ public class MovieCopiesActivity extends AppCompatActivity implements RentalAPI.
     @Override
     public void onRentalSuccess() {
         Toasty.success(getApplicationContext(), "Successfully rented movie!", Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     @Override
