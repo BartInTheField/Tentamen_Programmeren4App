@@ -79,9 +79,9 @@ public class RentedFragment extends Fragment implements RentalAPI.OnRentalSucces
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setMessage("Are you sure you want to hand in this movie?");
-                builder.setTitle("HAND IN '" + rentals.get(position).getMovie().getTitle() + "'");
-                builder.setPositiveButton("Yes, hand in", new DialogInterface.OnClickListener() {
+                builder.setMessage("Are you sure you want to return this movie?");
+                builder.setTitle("RETURN '" + rentals.get(position).getMovie().getTitle() + "'");
+                builder.setPositiveButton("Yes, return", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         doRentalAPIHandIn(position);
@@ -113,7 +113,7 @@ public class RentedFragment extends Fragment implements RentalAPI.OnRentalSucces
     private void showProgressDialog(){
         pdIsVisible = true;
         pd = new ProgressDialog(getContext());
-        pd.setMessage("Handing in movie...");
+        pd.setMessage("Returning movie...");
         pd.show();
     }
 
