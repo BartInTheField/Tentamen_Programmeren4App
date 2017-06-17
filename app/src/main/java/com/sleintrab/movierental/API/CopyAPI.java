@@ -1,17 +1,13 @@
 package com.sleintrab.movierental.API;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.util.Log;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.sleintrab.movierental.BuildConfig;
-import com.sleintrab.movierental.DomainModel.Movie;
 import com.sleintrab.movierental.Volley.JSONObjectRequest;
 import com.sleintrab.movierental.Volley.VolleyRequestQueue;
 
@@ -19,7 +15,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import es.dmoral.toasty.Toasty;
@@ -62,12 +57,11 @@ public class CopyAPI implements Response.Listener, Response.ErrorListener {
     @Override
     public void onErrorResponse(VolleyError error) {
         if (error.networkResponse.statusCode == 400) {
-            Toasty.error(context, "No copies found for this movie.", Toast.LENGTH_SHORT).show();
+            errorListener.noCopyAvailable();
         } else {
             error.printStackTrace();
             Toasty.error(context, "Failed to retrieve copies", Toast.LENGTH_SHORT).show();
         }
-        errorListener.noCopyAvailable();
     }
 
     @Override
