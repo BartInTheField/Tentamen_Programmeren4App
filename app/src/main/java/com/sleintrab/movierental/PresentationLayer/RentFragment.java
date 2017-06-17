@@ -20,6 +20,7 @@ import com.sleintrab.movierental.API.CopyAPI;
 import com.sleintrab.movierental.API.MovieAPI;
 import com.sleintrab.movierental.API.RentalAPI;
 import com.sleintrab.movierental.DomainModel.Movie;
+import com.sleintrab.movierental.DomainModel.Rental;
 import com.sleintrab.movierental.R;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ import es.dmoral.toasty.Toasty;
  * Created by Niels on 6/15/2017.
  */
 
-public class RentFragment extends Fragment implements MovieAPI.OnMoviesAvailable, CopyAPI.OnCopyAvailable, CopyAPI.NoCopyAvailable, RentalAPI.OnRentalFailed, RentalAPI.OnRentalSuccess {
+public class RentFragment extends Fragment implements MovieAPI.OnMoviesAvailable, CopyAPI.OnCopyAvailable, CopyAPI.NoCopyAvailable, RentalAPI.OnRentalFailed, RentalAPI.OnRentalSuccess, RentalAPI.OnRentalsAvailable {
 
     private ListView movieListView;
     private MovieListAdapter movieListAdapter;
@@ -50,7 +51,7 @@ public class RentFragment extends Fragment implements MovieAPI.OnMoviesAvailable
         super.onActivityCreated(savedInstanceState);
         movieAPI = new MovieAPI(getContext(), this);
         copyAPI = new CopyAPI(getContext(),this,this);
-        rentalAPI = new RentalAPI(getContext(), this,this);
+        rentalAPI = new RentalAPI(getContext(), this,this, this);
         movieListView = (ListView)getView().findViewById(R.id.rent_movie_listView);
 
         try {
@@ -86,7 +87,13 @@ public class RentFragment extends Fragment implements MovieAPI.OnMoviesAvailable
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Log.i("ConfirmRent", "Rented film");
-                rentalAPI.makeRental(((HomeActivity)getActivity()).getCustomer().getId(), copyID);
+
+                try {
+                    rentalAPI.makeRental(((HomeActivity)getActivity()).getCustomer().getId(), copyID);
+                } catch (AuthFailureError authFailureError) {
+                    authFailureError.printStackTrace();
+                }
+
                 showProgressDialog();
                 dialog.cancel();
             }
@@ -131,5 +138,10 @@ public class RentFragment extends Fragment implements MovieAPI.OnMoviesAvailable
     public void onRentalFailed() {
         pd.cancel();
         Toasty.error(getContext(), "Error occurred while renting movie, please try again.", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRentalsAvailable(ArrayList<Rental> rentals) {
+
     }
 }
