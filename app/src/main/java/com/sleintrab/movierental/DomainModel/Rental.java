@@ -9,11 +9,25 @@ public class Rental {
     private Movie movie;
     private String returnDate;
     private int inventoryID;
+    private boolean active;
 
     public Rental(Movie movie, String returnDate, int inventoryID) {
         this.movie = movie;
         this.returnDate = returnDate;
         this.inventoryID = inventoryID;
+    }
+
+    public Rental(Movie movie, int inventoryID) {
+        this.movie = movie;
+        this.inventoryID = inventoryID;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public Movie getMovie() {

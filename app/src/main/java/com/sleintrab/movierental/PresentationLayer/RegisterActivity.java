@@ -6,8 +6,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.sleintrab.movierental.API.EmptyFieldException;
-import com.sleintrab.movierental.API.PasswordsDontMatchException;
+import com.sleintrab.movierental.Exceptions.EmptyFieldException;
+import com.sleintrab.movierental.Exceptions.PasswordsDontMatchException;
 import com.sleintrab.movierental.API.RegisterAPI;
 import com.sleintrab.movierental.R;
 

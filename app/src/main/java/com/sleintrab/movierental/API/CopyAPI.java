@@ -8,6 +8,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.sleintrab.movierental.BuildConfig;
+import com.sleintrab.movierental.DomainModel.Copy;
 import com.sleintrab.movierental.Volley.JSONObjectRequest;
 import com.sleintrab.movierental.Volley.VolleyRequestQueue;
 
@@ -29,11 +30,11 @@ public class CopyAPI implements Response.Listener, Response.ErrorListener {
 
     private RequestQueue mQueue;
 
-    private OnCopyAvailable listener;
-    private NoCopyAvailable errorListener;
+    private OnCopiesAvailable listener;
+    private NoCopiesAvailable errorListener;
     private Context context;
 
-    public CopyAPI(Context context,OnCopyAvailable listener, NoCopyAvailable errorListener){
+    public CopyAPI(Context context,OnCopiesAvailable listener, NoCopiesAvailable errorListener){
         this.context = context;
         this.listener = listener;
         this.errorListener = errorListener;
@@ -57,7 +58,7 @@ public class CopyAPI implements Response.Listener, Response.ErrorListener {
     @Override
     public void onErrorResponse(VolleyError error) {
         if (error.networkResponse.statusCode == 400) {
-            errorListener.noCopyAvailable();
+            errorListener.noCopiesAvailable();
         } else {
             error.printStackTrace();
             Toasty.error(context, "Failed to retrieve copies", Toast.LENGTH_SHORT).show();
@@ -67,25 +68,25 @@ public class CopyAPI implements Response.Listener, Response.ErrorListener {
     @Override
     public void onResponse(Object response) {
         JSONObject jsonResponse;
-        ArrayList<Integer> copyIDs = new ArrayList<>();
+        ArrayList<Copy> copies = new ArrayList<>();
         try {
             jsonResponse = new JSONObject(response.toString());
             JSONArray copiesArray = jsonResponse.getJSONArray("Copies");
             for (int i = 0; i < copiesArray.length(); i++) {
                 JSONObject copyObject = copiesArray.getJSONObject(i);
-                copyIDs.add(copyObject.optInt("inventory_id"));
+                copies.add(new Copy(copyObject.optInt("inventory_id"), copyObject.optInt("film_id")));
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        listener.onCopyAvailable(copyIDs.get(0));
+        listener.onCopiesAvailable(copies);
     }
 
-    public interface OnCopyAvailable{
-        void onCopyAvailable(int copyID);
+    public interface OnCopiesAvailable{
+        void onCopiesAvailable(ArrayList<Copy> copies);
     }
 
-    public interface NoCopyAvailable{
-        void noCopyAvailable();
+    public interface NoCopiesAvailable{
+        void noCopiesAvailable();
     }
 }

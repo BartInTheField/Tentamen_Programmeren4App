@@ -1,4 +1,4 @@
-package com.sleintrab.movierental.API;
+package com.sleintrab.movierental.Exceptions;
 
 /**
  * Created by Niels on 6/13/2017.

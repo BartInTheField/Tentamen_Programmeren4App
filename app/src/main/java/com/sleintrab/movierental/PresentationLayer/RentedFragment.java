@@ -33,7 +33,7 @@ import es.dmoral.toasty.Toasty;
  * Created by Niels on 6/15/2017.
  */
 
-public class RentedFragment extends Fragment implements RentalAPI.OnRentalSuccess, RentalAPI.OnRentalsAvailable , RentalAPI.OnRentalFailed{
+public class RentedFragment extends Fragment implements RentalAPI.OnRentalSuccess, RentalAPI.OnRentalsAvailable , RentalAPI.OnRentalFailed, RentalAPI.OnActiveRentalsAvailable{
 
     private ListView rentedListView;
     private RentedListAdapter rentedListAdapter;
@@ -60,8 +60,8 @@ public class RentedFragment extends Fragment implements RentalAPI.OnRentalSucces
     }
 
     private void loadRentals(){
+        rentalAPI = new RentalAPI(getActivity().getApplicationContext(), this, this, this, this);
         loadingRentals = true;
-        rentalAPI = new RentalAPI(getActivity().getApplicationContext(), this, this, this);
 
         spinner = (FrameLayout) getView().findViewById(R.id.loadingLayout);
         spinner.setVisibility(View.VISIBLE);
@@ -102,7 +102,7 @@ public class RentedFragment extends Fragment implements RentalAPI.OnRentalSucces
 
     private void doRentalAPIHandIn(int rentalPosition){
         try {
-            new RentalAPI(getContext(), this,this,this).handInRental(customer.getId(),
+            new RentalAPI(getContext(), this,this,this, this).handInRental(customer.getId(),
                     rentals.get(rentalPosition).getInventoryID());
         } catch (AuthFailureError authFailureError) {
             authFailureError.printStackTrace();
@@ -138,7 +138,7 @@ public class RentedFragment extends Fragment implements RentalAPI.OnRentalSucces
 
     @Override
     public void onRentalFailed() {
-        if (pdIsVisible){
+      if (pdIsVisible){
             spinner.setVisibility(View.GONE);
             pd.cancel();
             Toasty.error(getContext(), "Error occurred while handing in movie, please try again.", Toast.LENGTH_SHORT).show();
@@ -148,6 +148,12 @@ public class RentedFragment extends Fragment implements RentalAPI.OnRentalSucces
             FrameLayout noRented = (FrameLayout) getView().findViewById(R.id.no_rentedLayout);
             noRented.setVisibility(View.VISIBLE);
         }
+        Toasty.error(getContext(), "You have no rented movies at the moment.", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onActiveRentalsAvailable(ArrayList<Integer> inventoryIDs) {
+        this.inventoryIDs = inventoryIDs;
     }
 }
 
