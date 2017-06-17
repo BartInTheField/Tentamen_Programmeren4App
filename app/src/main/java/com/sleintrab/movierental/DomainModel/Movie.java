@@ -1,12 +1,13 @@
 package com.sleintrab.movierental.DomainModel;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 /**
  * Created by Niels on 6/15/2017.
  */
 
-public class Movie {
+public class Movie implements Serializable {
 
     private int ID;
     private String title;

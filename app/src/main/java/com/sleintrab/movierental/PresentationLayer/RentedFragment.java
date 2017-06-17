@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -32,7 +33,7 @@ import es.dmoral.toasty.Toasty;
  * Created by Niels on 6/15/2017.
  */
 
-public class RentedFragment extends Fragment implements RentalAPI.OnRentalSuccess, RentalAPI.OnRentalsAvailable , RentalAPI.OnRentalFailed{
+public class RentedFragment extends Fragment implements RentalAPI.OnRentalSuccess, RentalAPI.OnRentalsAvailable , RentalAPI.OnRentalFailed, RentalAPI.OnActiveRentalsAvailable{
 
     private ListView rentedListView;
     private RentedListAdapter rentedListAdapter;
@@ -42,6 +43,8 @@ public class RentedFragment extends Fragment implements RentalAPI.OnRentalSucces
     private AlertDialog dialog;
     private Customer customer;
     private ProgressDialog pd;
+    private Boolean pdIsVisible = false;
+    private Boolean loadingRentals = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -57,7 +60,8 @@ public class RentedFragment extends Fragment implements RentalAPI.OnRentalSucces
     }
 
     private void loadRentals(){
-        rentalAPI = new RentalAPI(getActivity().getApplicationContext(), this, this, this);
+        rentalAPI = new RentalAPI(getActivity().getApplicationContext(), this, this, this, this);
+        loadingRentals = true;
 
         spinner = (FrameLayout) getView().findViewById(R.id.loadingLayout);
         spinner.setVisibility(View.VISIBLE);
@@ -75,9 +79,9 @@ public class RentedFragment extends Fragment implements RentalAPI.OnRentalSucces
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setMessage("Are you sure you want to hand in this movie?");
-                builder.setTitle("HAND IN '" + rentals.get(position).getMovie().getTitle() + "'");
-                builder.setPositiveButton("Yes, hand in", new DialogInterface.OnClickListener() {
+                builder.setMessage("Are you sure you want to return this movie?");
+                builder.setTitle("RETURN '" + rentals.get(position).getMovie().getTitle() + "'");
+                builder.setPositiveButton("Yes, return", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         doRentalAPIHandIn(position);
@@ -98,23 +102,24 @@ public class RentedFragment extends Fragment implements RentalAPI.OnRentalSucces
 
     private void doRentalAPIHandIn(int rentalPosition){
         try {
-            new RentalAPI(getContext(), this,this,this).handInRental(customer.getId(),
+            new RentalAPI(getContext(), this,this,this, this).handInRental(customer.getId(),
                     rentals.get(rentalPosition).getInventoryID());
         } catch (AuthFailureError authFailureError) {
             authFailureError.printStackTrace();
         }
         showProgressDialog();
-
     }
 
     private void showProgressDialog(){
+        pdIsVisible = true;
         pd = new ProgressDialog(getContext());
-        pd.setMessage("Handing in movie...");
+        pd.setMessage("Returning movie...");
         pd.show();
     }
 
     @Override
     public void onRentalSuccess() {
+        pdIsVisible = false;
         pd.cancel();
         dialog.dismiss();
         loadRentals();
@@ -133,8 +138,20 @@ public class RentedFragment extends Fragment implements RentalAPI.OnRentalSucces
 
     @Override
     public void onRentalFailed() {
-        pd.cancel();
-        Toasty.error(getContext(), "Error occurred while handing in movie, please try again.", Toast.LENGTH_SHORT).show();
+      if (pdIsVisible){
+            spinner.setVisibility(View.GONE);
+            pd.cancel();
+            Toasty.error(getContext(), "Error occurred while handing in movie, please try again.", Toast.LENGTH_SHORT).show();
+        } else if (loadingRentals){
+            loadingRentals = false;
+            spinner.setVisibility(View.GONE);
+            FrameLayout noRented = (FrameLayout) getView().findViewById(R.id.no_rentedLayout);
+            noRented.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onActiveRentalsAvailable(ArrayList<Integer> inventoryIDs) {
     }
 }
 
