@@ -13,4 +13,9 @@
     <string name="registerPassword">Password:</string>
     <string name="registerConfirmPassword">Confirm password:</string>
     <string name="no_films_rented">No films rented yet</string>
+
+    <!-- RentFragment -->
+    <string name="confirmRentMessage">Are you sure you want to rent this movie?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>
