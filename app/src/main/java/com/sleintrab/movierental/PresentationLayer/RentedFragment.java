@@ -148,7 +148,6 @@ public class RentedFragment extends Fragment implements RentalAPI.OnRentalSucces
             FrameLayout noRented = (FrameLayout) getView().findViewById(R.id.no_rentedLayout);
             noRented.setVisibility(View.VISIBLE);
         }
-        Toasty.error(getContext(), "You have no rented movies at the moment.", Toast.LENGTH_SHORT).show();
     }
 
     @Override
