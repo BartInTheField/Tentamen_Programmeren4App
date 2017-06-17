@@ -1,8 +1,6 @@
 package com.sleintrab.movierental.API;
 
-import android.app.DownloadManager;
 import android.content.Context;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -20,8 +18,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-
-import es.dmoral.toasty.Toasty;
 
 /**
  * Created by barti on 17-Jun-17.
@@ -89,6 +85,7 @@ public class RentalAPI implements Response.ErrorListener, Response.Listener {
     public void onErrorResponse(VolleyError error) {
         error.printStackTrace();
         errorListener.onRentalFailed();
+
     }
 
     @Override
