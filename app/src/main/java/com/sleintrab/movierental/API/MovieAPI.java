@@ -32,34 +32,17 @@ import es.dmoral.toasty.Toasty;
 public class MovieAPI implements Response.Listener, Response.ErrorListener {
 
     private String URL;
-    private final String SHAREDACCESTOKEN = "ACCESSTOKEN";
-
-    private SharedPreferences accesToken;
 
     private RequestQueue mQueue;
 
     private OnMoviesAvailable listener;
-    private NoMoviesAvailable listenerTwo;
     private Context context;
-    private Boolean hasUserID = false;
 
     public MovieAPI(Context context,OnMoviesAvailable listener){
         this.context = context;
         this.listener = listener;
 
         URL = BuildConfig.SERVER_URL + "films";
-
-        mQueue = VolleyRequestQueue.getInstance(context.getApplicationContext()).getRequestQueue();
-    }
-
-    public MovieAPI(Context context,OnMoviesAvailable listener, NoMoviesAvailable listenerTwo,  int userID){
-        this.context = context;
-        this.listener = listener;
-        this.listenerTwo = listenerTwo;
-
-        accesToken = context.getSharedPreferences(SHAREDACCESTOKEN, Context.MODE_PRIVATE);
-        URL = BuildConfig.SERVER_URL + "rentals/" + userID;
-        hasUserID = true;
 
         mQueue = VolleyRequestQueue.getInstance(context.getApplicationContext()).getRequestQueue();
     }
@@ -72,9 +55,6 @@ public class MovieAPI implements Response.Listener, Response.ErrorListener {
                 this,
                 context);
         req.setTag("MoviesTAG");
-        if (hasUserID){
-            req.getHeaders().put("X-Access-Token", accesToken.getString("token", ""));
-        }
         Log.i("HEADERS", req.getHeaders().toString());
         mQueue.add(req);
     }
@@ -83,11 +63,7 @@ public class MovieAPI implements Response.Listener, Response.ErrorListener {
     @Override
     public void onErrorResponse(VolleyError error) {
         if (error.networkResponse.statusCode == 400) {
-            if (!hasUserID){
-                Toasty.error(context, "Cannot find any movies.", Toast.LENGTH_SHORT).show();
-            } else {
-                listenerTwo.noMoviesAvailable();
-            }
+            Toasty.error(context, "Cannot find any movies.", Toast.LENGTH_SHORT).show();
         } else {
             error.printStackTrace();
             Toasty.error(context, "Failed to retrieve movies", Toast.LENGTH_SHORT).show();
@@ -115,10 +91,6 @@ public class MovieAPI implements Response.Listener, Response.ErrorListener {
                     movieObject.optString("rating"),
                     movieObject.optString("special_features")
                 );
-                if (hasUserID){
-                    movie.setReturnDate(movieObject.optString("return_date"));
-                    movie.setInventoryID(movieObject.optInt("inventory_id"));
-                }
                 movies.add(movie);
             }
         } catch (JSONException e) {
@@ -129,9 +101,5 @@ public class MovieAPI implements Response.Listener, Response.ErrorListener {
 
     public interface OnMoviesAvailable{
         void onMoviesAvailable(ArrayList<Movie> movies);
-    }
-
-    public interface NoMoviesAvailable{
-        void noMoviesAvailable();
     }
 }

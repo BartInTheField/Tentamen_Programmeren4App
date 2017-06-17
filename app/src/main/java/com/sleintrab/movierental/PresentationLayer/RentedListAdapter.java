@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.sleintrab.movierental.DomainModel.Movie;
+import com.sleintrab.movierental.DomainModel.Rental;
 import com.sleintrab.movierental.R;
 
 import java.util.ArrayList;
@@ -16,11 +17,11 @@ import java.util.ArrayList;
  * Created by Niels on 6/15/2017.
  */
 
-public class RentedListAdapter extends ArrayAdapter<Movie> {
+public class RentedListAdapter extends ArrayAdapter<Rental> {
 
 
-    public RentedListAdapter(Context context, ArrayList<Movie> movieList){
-        super(context, R.layout.rented_list_item, movieList);
+    public RentedListAdapter(Context context, ArrayList<Rental> rentalList){
+        super(context, R.layout.rented_list_item, rentalList);
     }
 
     @Override
@@ -30,17 +31,17 @@ public class RentedListAdapter extends ArrayAdapter<Movie> {
 
         View customView = productInflater.inflate(R.layout.rented_list_item, parent, false);
 
-        Movie movie = getItem(position);
+        Rental rental = getItem(position);
 
         TextView movieTitle = (TextView)customView.findViewById(R.id.movie_title);
         TextView movieYear = (TextView)customView.findViewById(R.id.movie_year);
         TextView movieRating = (TextView)customView.findViewById(R.id.movie_rating);
-        TextView movieReturn = (TextView)customView.findViewById(R.id.movie_return_date);
+        TextView rentalReturn = (TextView)customView.findViewById(R.id.movie_return_date);
 
-        movieTitle.setText(movie.getTitle());
-        movieYear.setText(String.valueOf(movie.getReleaseYear()));
-        movieRating.setText(movie.getRating());
-        movieReturn.setText(movie.getReturnDate());
+        movieTitle.setText(rental.getMovie().getTitle());
+        movieYear.setText(String.valueOf(rental.getMovie().getReleaseYear()));
+        movieRating.setText(rental.getMovie().getRating());
+        rentalReturn.setText(rental.getReturnDate());
 
         return customView;
     }
