@@ -116,6 +116,7 @@ public class MovieCopiesActivity extends AppCompatActivity implements RentalAPI.
                 }else{
                     Log.i("Rental ID", "Rental ID " + rental.getInventoryID());
                     createRentDialog(rental.getInventoryID());
+                    rental.setActive(true);
                 }
             }
         });
