@@ -18,7 +18,18 @@ public class Movie {
     private double replacementCost;
     private String rating;
     private String specialFeatures;
+
     private String returnDate;
+
+    public int getInventoryID() {
+        return inventoryID;
+    }
+
+    public void setInventoryID(int inventoryID) {
+        this.inventoryID = inventoryID;
+    }
+
+    private int inventoryID;
 
     public Movie(int ID, String title, String description, int releaseYear, int rentalDuration, double price, int length, double replacementCost, String rating, String specialFeatures) {
         this.ID = ID;
@@ -33,7 +44,7 @@ public class Movie {
         this.specialFeatures = specialFeatures;
     }
 
-    public Movie(int ID, String title, String description, int releaseYear, int rentalDuration, double price, int length, double replacementCost, String rating, String specialFeatures, String returnDate) {
+    public Movie(int ID, String title, String description, int releaseYear, int rentalDuration, double price, int length, double replacementCost, String rating, String specialFeatures, String returnDate, int inventoryID) {
         this.ID = ID;
         this.title = title;
         this.description = description;
@@ -45,6 +56,8 @@ public class Movie {
         this.rating = rating;
         this.specialFeatures = specialFeatures;
         this.returnDate = returnDate;
+        this.inventoryID = inventoryID;
+
     }
 
     public int getID() {
