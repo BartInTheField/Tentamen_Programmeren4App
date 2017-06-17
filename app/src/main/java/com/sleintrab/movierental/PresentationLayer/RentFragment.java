@@ -1,6 +1,7 @@
 package com.sleintrab.movierental.PresentationLayer;
 
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import com.android.volley.AuthFailureError;
 import com.sleintrab.movierental.API.CopyAPI;
 import com.sleintrab.movierental.API.MovieAPI;
+import com.sleintrab.movierental.API.RentalAPI;
 import com.sleintrab.movierental.DomainModel.Movie;
 import com.sleintrab.movierental.R;
 
@@ -28,12 +30,14 @@ import es.dmoral.toasty.Toasty;
  * Created by Niels on 6/15/2017.
  */
 
-public class RentFragment extends Fragment implements MovieAPI.OnMoviesAvailable, CopyAPI.OnCopyAvailable, CopyAPI.NoCopyAvailable {
+public class RentFragment extends Fragment implements MovieAPI.OnMoviesAvailable, CopyAPI.OnCopyAvailable, CopyAPI.NoCopyAvailable, RentalAPI.OnRentalFailed, RentalAPI.OnRentalSuccess {
 
     private ListView movieListView;
     private MovieListAdapter movieListAdapter;
     private MovieAPI movieAPI;
     private CopyAPI copyAPI;
+    private RentalAPI rentalAPI;
+    private ProgressDialog pd;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -46,6 +50,7 @@ public class RentFragment extends Fragment implements MovieAPI.OnMoviesAvailable
         super.onActivityCreated(savedInstanceState);
         movieAPI = new MovieAPI(getContext(), this);
         copyAPI = new CopyAPI(getContext(),this,this);
+        rentalAPI = new RentalAPI(getContext(), this,this);
         movieListView = (ListView)getView().findViewById(R.id.rent_movie_listView);
 
         try {
@@ -73,7 +78,7 @@ public class RentFragment extends Fragment implements MovieAPI.OnMoviesAvailable
         });
     }
 
-    public void createRentDialog(){
+    public void createRentDialog(final int copyID){
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setCancelable(false);
         builder.setMessage(getResources().getString(R.string.confirmRentMessage));
@@ -81,7 +86,8 @@ public class RentFragment extends Fragment implements MovieAPI.OnMoviesAvailable
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Log.i("ConfirmRent", "Rented film");
-                //TODO: Go to rent api
+                rentalAPI.makeRental(((HomeActivity)getActivity()).getCustomer().getId(), copyID);
+                showProgressDialog();
                 dialog.cancel();
             }
         });
@@ -97,15 +103,33 @@ public class RentFragment extends Fragment implements MovieAPI.OnMoviesAvailable
         dialog.show();
     }
 
+    private void showProgressDialog(){
+        pd = new ProgressDialog(getContext());
+        pd.setMessage("Renting movie...");
+        pd.show();
+    }
+
     @Override
     public void onCopyAvailable(int copyID) {
         Log.i("OnCopyAvailable", "Copy available: " + copyID);
-        createRentDialog();
+        createRentDialog(copyID);
     }
 
     @Override
     public void noCopyAvailable() {
         Log.i("OnCopyAvailable", "No copies available");
         Toasty.error(getContext(), "There are no copies available of this movie.", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRentalSuccess() {
+        pd.cancel();
+        Toasty.success(getContext(), "Successfully rented movie!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRentalFailed() {
+        pd.cancel();
+        Toasty.error(getContext(), "Error occurred while renting movie, please try again.", Toast.LENGTH_SHORT).show();
     }
 }

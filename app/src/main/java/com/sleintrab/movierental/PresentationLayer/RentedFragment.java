@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.sleintrab.movierental.API.MovieAPI;
@@ -24,11 +25,13 @@ import com.sleintrab.movierental.R;
 
 import java.util.ArrayList;
 
+import es.dmoral.toasty.Toasty;
+
 /**
  * Created by Niels on 6/15/2017.
  */
 
-public class RentedFragment extends Fragment implements MovieAPI.OnMoviesAvailable, MovieAPI.NoMoviesAvailable, RentalAPI.OnRentalSuccess {
+public class RentedFragment extends Fragment implements MovieAPI.OnMoviesAvailable, MovieAPI.NoMoviesAvailable, RentalAPI.OnRentalSuccess, RentalAPI.OnRentalFailed {
 
     private ListView rentedListView;
     private RentedListAdapter rentedListAdapter;
@@ -104,7 +107,7 @@ public class RentedFragment extends Fragment implements MovieAPI.OnMoviesAvailab
     }
 
     private void doRentalAPIHandIn(int moviePosition){
-        new RentalAPI(getContext(), this).handInRental(customer.getId(),
+        new RentalAPI(getContext(), this,this).handInRental(customer.getId(),
                 movies.get(moviePosition).getInventoryID());
         showProgressDialog();
 
@@ -129,6 +132,12 @@ public class RentedFragment extends Fragment implements MovieAPI.OnMoviesAvailab
         pd.cancel();
         dialog.dismiss();
         loadMovies();
+    }
+
+    @Override
+    public void onRentalFailed() {
+        pd.cancel();
+        Toasty.error(getContext(), "Error occurred while handing in movie, please try again.", Toast.LENGTH_SHORT).show();
     }
 }
 
