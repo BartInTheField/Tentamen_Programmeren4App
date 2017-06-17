@@ -36,17 +36,19 @@ public class RentalAPI implements Response.ErrorListener, Response.Listener {
     private static Context context;
 
     private OnRentalSuccess listener = null;
-    private OnRentalFailed errorListener;
+    private OnRentalFailed errorListener = null;
     private OnRentalsAvailable getListener = null;
+    private OnActiveRentalsAvailable activeRentalsListener = null;
 
     private Boolean isGETRequest = false;
+    private Boolean isActiveRentalRequest = false;
 
-    public RentalAPI(Context context, OnRentalSuccess listener, OnRentalsAvailable getListener, OnRentalFailed errorListener){
+    public RentalAPI(Context context, OnRentalSuccess listener, OnRentalsAvailable getListener, OnRentalFailed errorListener, OnActiveRentalsAvailable activeRentalsListener){
         this.context = context;
         this.listener = listener;
         this.getListener = getListener;
-        this. errorListener = errorListener;
-
+        this.errorListener = errorListener;
+        this.activeRentalsListener = activeRentalsListener;
         mQueue = VolleyRequestQueue.getInstance(context.getApplicationContext()).getRequestQueue();
     }
 
@@ -82,6 +84,17 @@ public class RentalAPI implements Response.ErrorListener, Response.Listener {
                 context);
         req.setTag("makeRentalTAG");
         isGETRequest = true;
+        mQueue.add(req);
+    }
+
+    public void getActiveRentals() throws AuthFailureError {
+        final JSONObjectRequest req = new JSONObjectRequest(Request.Method.GET,
+                URL + "activeRentals",
+                new JSONObject(),
+                this,
+                this,
+                context);
+        req.setTag("activeRentalsTAG");
         mQueue.add(req);
     }
 
@@ -124,7 +137,21 @@ public class RentalAPI implements Response.ErrorListener, Response.Listener {
                 e.printStackTrace();
             }
             getListener.onRentalsAvailable(rentals);
-        } else {
+        } else if (isActiveRentalRequest){
+            JSONObject jsonResponse;
+            ArrayList<Integer> inventoryIDs = new ArrayList<>();
+            try {
+                jsonResponse = new JSONObject(response.toString());
+                JSONArray inventoryIDArray = jsonResponse.getJSONArray("Movies");
+                for (int i = 0; i < inventoryIDArray.length(); i++) {
+                    JSONObject idObject = inventoryIDArray.getJSONObject(i);
+                    inventoryIDs.add(idObject.optInt("inventory_id"));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            activeRentalsListener.onActiveRentalsAvailable(inventoryIDs);
+        }else {
             listener.onRentalSuccess();
         }
     }
@@ -137,8 +164,11 @@ public class RentalAPI implements Response.ErrorListener, Response.Listener {
         void onRentalsAvailable(ArrayList<Rental> rentals);
     }
 
+    public interface OnActiveRentalsAvailable{
+        void onActiveRentalsAvailable(ArrayList<Integer> inventoryIDs);
+    }
+
     public interface OnRentalFailed{
         void onRentalFailed();
-
     }
 }
