@@ -28,17 +28,20 @@ public class RentedListAdapter extends ArrayAdapter<Movie> {
 
         LayoutInflater productInflater = LayoutInflater.from(getContext());
 
-        View customView = productInflater.inflate(R.layout.movie_list_item, parent, false);
+        View customView = productInflater.inflate(R.layout.rented_list_item, parent, false);
 
         Movie movie = getItem(position);
 
         TextView movieTitle = (TextView)customView.findViewById(R.id.movie_title);
         TextView movieYear = (TextView)customView.findViewById(R.id.movie_year);
         TextView movieRating = (TextView)customView.findViewById(R.id.movie_rating);
+        TextView movieReturn = (TextView)customView.findViewById(R.id.movie_return_date);
 
         movieTitle.setText(movie.getTitle());
         movieYear.setText(String.valueOf(movie.getReleaseYear()));
         movieRating.setText(movie.getRating());
+        movieReturn.setText(movie.getReturnDate());
+
         return customView;
     }
 }
