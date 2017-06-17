@@ -117,6 +117,7 @@ public class MovieAPI implements Response.Listener, Response.ErrorListener {
                 );
                 if (hasUserID){
                     movie.setReturnDate(movieObject.optString("return_date"));
+                    movie.setInventoryID(movieObject.optInt("inventory_id"));
                 }
                 movies.add(movie);
             }
