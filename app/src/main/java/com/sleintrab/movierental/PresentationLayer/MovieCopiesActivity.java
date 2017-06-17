@@ -88,7 +88,7 @@ public class MovieCopiesActivity extends AppCompatActivity implements RentalAPI.
         });
     }
 
-    public void createRentDialog(final int inventoryID){
+    public void createRentDialog(final Rental rental){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(false);
         builder.setMessage(getResources().getString(R.string.confirmRentMessage));
@@ -97,7 +97,8 @@ public class MovieCopiesActivity extends AppCompatActivity implements RentalAPI.
             public void onClick(DialogInterface dialog, int which) {
 
                 try {
-                    rentalAPI.makeRental(customer.getId(), inventoryID);
+                    rentalAPI.makeRental(customer.getId(), rental.getInventoryID());
+                    rental.setActive(true);
                 } catch (AuthFailureError authFailureError) {
                     authFailureError.printStackTrace();
                 }
@@ -145,8 +146,7 @@ public class MovieCopiesActivity extends AppCompatActivity implements RentalAPI.
                     Toasty.error(getApplicationContext(), "This copy is already rented", Toast.LENGTH_SHORT).show();
                 }else{
                     Log.i("Rental ID", "Rental ID " + rental.getInventoryID());
-                    createRentDialog(rental.getInventoryID());
-                    rental.setActive(true);
+                    createRentDialog(rental);
                 }
             }
         });
