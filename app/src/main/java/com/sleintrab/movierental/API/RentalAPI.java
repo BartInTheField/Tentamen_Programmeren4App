@@ -135,6 +135,7 @@ public class RentalAPI implements Response.ErrorListener, Response.Listener {
 
     public interface OnRentalsAvailable {
         void onRentalsAvailable(ArrayList<Rental> rentals);
+    }
 
     public interface OnRentalFailed{
         void onRentalFailed();

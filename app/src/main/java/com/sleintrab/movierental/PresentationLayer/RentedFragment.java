@@ -57,7 +57,7 @@ public class RentedFragment extends Fragment implements RentalAPI.OnRentalSucces
     }
 
     private void loadRentals(){
-        rentalAPI = new RentalAPI(getActivity().getApplicationContext(), this, this);
+        rentalAPI = new RentalAPI(getActivity().getApplicationContext(), this, this, this);
 
         spinner = (FrameLayout) getView().findViewById(R.id.loadingLayout);
         spinner.setVisibility(View.VISIBLE);
@@ -98,7 +98,7 @@ public class RentedFragment extends Fragment implements RentalAPI.OnRentalSucces
 
     private void doRentalAPIHandIn(int rentalPosition){
         try {
-            new RentalAPI(getContext(), this,this).handInRental(customer.getId(),
+            new RentalAPI(getContext(), this,this,this).handInRental(customer.getId(),
                     rentals.get(rentalPosition).getInventoryID());
         } catch (AuthFailureError authFailureError) {
             authFailureError.printStackTrace();
