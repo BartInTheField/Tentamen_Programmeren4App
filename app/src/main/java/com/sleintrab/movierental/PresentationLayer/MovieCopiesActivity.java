@@ -1,13 +1,19 @@
 package com.sleintrab.movierental.PresentationLayer;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.media.Image;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -27,6 +33,10 @@ import es.dmoral.toasty.Toasty;
 
 public class MovieCopiesActivity extends AppCompatActivity implements RentalAPI.OnRentalFailed, RentalAPI.OnRentalSuccess, RentalAPI.OnRentalsAvailable, CopyAPI.OnCopiesAvailable, CopyAPI.NoCopiesAvailable, RentalAPI.OnActiveRentalsAvailable {
 
+    private final String SHAREDACCESTOKEN = "ACCESSTOKEN";
+    private SharedPreferences accesToken;
+    private SharedPreferences.Editor accesTokenEdit;
+
     private CopyAPI copyAPI;
     private RentalAPI rentalAPI;
     private ProgressDialog pd;
@@ -35,11 +45,16 @@ public class MovieCopiesActivity extends AppCompatActivity implements RentalAPI.
     private ListView copyListView;
     private CopyListAdapter copyListAdapter;
     private ArrayList<Integer> inventoryIDs = new ArrayList<>();
+    private Toolbar toolbar;
+    private ImageView logoutButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_copies);
+
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        logoutButton = (ImageView)toolbar.findViewById(R.id.logout);
 
         customer = (Customer)getIntent().getSerializableExtra("customer");
         movie = (Movie)getIntent().getSerializableExtra("movie");
@@ -49,6 +64,9 @@ public class MovieCopiesActivity extends AppCompatActivity implements RentalAPI.
 
         copyListView = (ListView)findViewById(R.id.rent_movie_listView);
 
+        accesToken = getApplicationContext().getSharedPreferences(SHAREDACCESTOKEN, Context.MODE_PRIVATE);
+        accesTokenEdit = accesToken.edit();
+
 
         try {
             rentalAPI.getActiveRentals();
@@ -56,6 +74,18 @@ public class MovieCopiesActivity extends AppCompatActivity implements RentalAPI.
             authFailureError.printStackTrace();
         }
         copyAPI.retrieveCopies(movie.getID());
+
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                accesTokenEdit.clear();
+                accesTokenEdit.apply();
+                Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
+                finish();
+            }
+        });
     }
 
     public void createRentDialog(final int inventoryID){
