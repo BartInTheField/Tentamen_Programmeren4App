@@ -1,25 +1,20 @@
 package com.sleintrab.movierental.PresentationLayer;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.sleintrab.movierental.DomainModel.Movie;
 import com.sleintrab.movierental.DomainModel.Rental;
 import com.sleintrab.movierental.R;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Niels on 6/15/2017.
