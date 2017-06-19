@@ -28,6 +28,8 @@ import es.dmoral.toasty.Toasty;
 
 public class MovieAPI implements Response.Listener, Response.ErrorListener {
 
+    private final String TAG = getClass().getSimpleName();
+
     private String URL;
 
     private RequestQueue mQueue;
@@ -62,7 +64,7 @@ public class MovieAPI implements Response.Listener, Response.ErrorListener {
         if (error.networkResponse.statusCode == 400) {
             Toasty.error(context, "Cannot find any movies.", Toast.LENGTH_SHORT).show();
         } else {
-            error.printStackTrace();
+            Log.e(TAG,error.getMessage());
             Toasty.error(context, "Failed to retrieve movies", Toast.LENGTH_SHORT).show();
         }
     }
@@ -91,7 +93,7 @@ public class MovieAPI implements Response.Listener, Response.ErrorListener {
                 movies.add(movie);
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.e(TAG,e.getMessage());
         }
         listener.onMoviesAvailable(movies);
     }

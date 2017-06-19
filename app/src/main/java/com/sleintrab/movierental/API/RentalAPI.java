@@ -1,6 +1,7 @@
 package com.sleintrab.movierental.API;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -25,11 +26,13 @@ import java.util.ArrayList;
 
 public class RentalAPI implements Response.ErrorListener, Response.Listener {
 
+    private final String TAG = getClass().getSimpleName();
+
     private final String URL = BuildConfig.SERVER_URL + "rentals/";
 
     private RequestQueue mQueue;
 
-    private static Context context;
+    private Context context;
 
     private OnRentalSuccess listener = null;
     private OnRentalFailed errorListener = null;
@@ -38,15 +41,6 @@ public class RentalAPI implements Response.ErrorListener, Response.Listener {
 
     private Boolean isGETRequest = false;
     private Boolean isActiveRentalRequest = false;
-
-    public RentalAPI(Context context, OnRentalSuccess listener, OnRentalsAvailable getListener, OnRentalFailed errorListener, OnActiveRentalsAvailable activeRentalsListener){
-        this.context = context;
-        this.listener = listener;
-        this.getListener = getListener;
-        this.errorListener = errorListener;
-        this.activeRentalsListener = activeRentalsListener;
-        mQueue = VolleyRequestQueue.getInstance(context.getApplicationContext()).getRequestQueue();
-    }
 
     public RentalAPI(Context context, OnRentalSuccess listener, OnRentalsAvailable getListener, OnRentalFailed errorListener){
         this.context = context;
@@ -113,7 +107,7 @@ public class RentalAPI implements Response.ErrorListener, Response.Listener {
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        error.printStackTrace();
+        Log.e(TAG,error.getMessage());
         errorListener.onRentalFailed();
 
     }
@@ -148,7 +142,7 @@ public class RentalAPI implements Response.ErrorListener, Response.Listener {
                     rentals.add(rental);
                 }
             } catch (JSONException e) {
-                e.printStackTrace();
+                Log.e(TAG,e.getMessage());
             }
             getListener.onRentalsAvailable(rentals);
         } else if (isActiveRentalRequest){
@@ -163,7 +157,7 @@ public class RentalAPI implements Response.ErrorListener, Response.Listener {
                     inventoryIDs.add(idObject.optInt("inventory_id"));
                 }
             } catch (JSONException e) {
-                e.printStackTrace();
+                Log.e(TAG,e.getMessage());
             }
             activeRentalsListener.onActiveRentalsAvailable(inventoryIDs);
         }else {

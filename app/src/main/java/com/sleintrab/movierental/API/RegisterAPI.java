@@ -1,6 +1,7 @@
 package com.sleintrab.movierental.API;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -26,12 +27,12 @@ import es.dmoral.toasty.Toasty;
 
 public class RegisterAPI implements Response.ErrorListener, Response.Listener{
 
-    private final String URL = BuildConfig.SERVER_URL + "register";
+    private final String TAG = getClass().getSimpleName();
 
-    private JSONObject jsonResponse;
+    private final String URL = BuildConfig.SERVER_URL + "register";
     private RequestQueue mQueue;
 
-    private static Context context;
+    private Context context;
     private OnRegisterSuccess listener;
 
     public RegisterAPI(Context context, OnRegisterSuccess listener){
@@ -75,7 +76,7 @@ public class RegisterAPI implements Response.ErrorListener, Response.Listener{
             jsonBody.put("email", email);
             jsonBody.put("password", password);
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.e(TAG,e.getMessage());
         }
 
         return jsonBody;
@@ -109,11 +110,7 @@ public class RegisterAPI implements Response.ErrorListener, Response.Listener{
 
     @Override
     public void onResponse(Object response) {
-        try {
-            jsonResponse = new JSONObject(response.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+
         listener.onRegisterSuccess();
     }
 
