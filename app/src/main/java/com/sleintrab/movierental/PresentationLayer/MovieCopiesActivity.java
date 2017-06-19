@@ -72,6 +72,9 @@ public class MovieCopiesActivity extends AppCompatActivity implements RentalAPI.
             rentalAPI.getActiveRentals();
         } catch (AuthFailureError authFailureError) {
             authFailureError.printStackTrace();
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         }
         copyAPI.retrieveCopies(movie.getID());
 
