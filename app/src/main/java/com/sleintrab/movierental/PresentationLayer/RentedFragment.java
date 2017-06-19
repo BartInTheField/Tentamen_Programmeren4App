@@ -34,7 +34,7 @@ import es.dmoral.toasty.Toasty;
  * Created by Niels on 6/15/2017.
  */
 
-public class RentedFragment extends Fragment implements RentalAPI.OnRentalSuccess, RentalAPI.OnRentalsAvailable , RentalAPI.OnRentalFailed, RentalAPI.OnActiveRentalsAvailable{
+public class RentedFragment extends Fragment implements RentalAPI.OnRentalSuccess, RentalAPI.OnRentalsAvailable , RentalAPI.OnRentalFailed{
 
     private ListView rentedListView;
     private RentedListAdapter rentedListAdapter;
@@ -61,7 +61,7 @@ public class RentedFragment extends Fragment implements RentalAPI.OnRentalSucces
     }
 
     private void loadRentals(){
-        rentalAPI = new RentalAPI(getActivity().getApplicationContext(), this, this, this, this);
+        rentalAPI = new RentalAPI(getActivity().getApplicationContext(), this, this, this);
         loadingRentals = true;
 
         spinner = (FrameLayout) getView().findViewById(R.id.loadingLayout);
@@ -106,7 +106,7 @@ public class RentedFragment extends Fragment implements RentalAPI.OnRentalSucces
 
     private void doRentalAPIHandIn(int rentalPosition){
         try {
-            new RentalAPI(getContext(), this,this,this, this).handInRental(customer.getId(),
+            new RentalAPI(getContext(), this,this,this).handInRental(customer.getId(),
                     rentals.get(rentalPosition).getInventoryID());
         } catch (AuthFailureError authFailureError) {
             authFailureError.printStackTrace();
@@ -157,8 +157,5 @@ public class RentedFragment extends Fragment implements RentalAPI.OnRentalSucces
         }
     }
 
-    @Override
-    public void onActiveRentalsAvailable(ArrayList<Integer> inventoryIDs) {
-    }
 }
 

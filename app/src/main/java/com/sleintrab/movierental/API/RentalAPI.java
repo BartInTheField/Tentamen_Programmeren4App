@@ -48,6 +48,22 @@ public class RentalAPI implements Response.ErrorListener, Response.Listener {
         mQueue = VolleyRequestQueue.getInstance(context.getApplicationContext()).getRequestQueue();
     }
 
+    public RentalAPI(Context context, OnRentalSuccess listener, OnRentalsAvailable getListener, OnRentalFailed errorListener){
+        this.context = context;
+        this.listener = listener;
+        this.getListener = getListener;
+        this.errorListener = errorListener;
+        mQueue = VolleyRequestQueue.getInstance(context.getApplicationContext()).getRequestQueue();
+    }
+
+    public RentalAPI(Context context, OnRentalSuccess listener, OnRentalFailed errorListener, OnActiveRentalsAvailable activeRentalsListener){
+        this.context = context;
+        this.listener = listener;
+        this.errorListener = errorListener;
+        this.activeRentalsListener = activeRentalsListener;
+        mQueue = VolleyRequestQueue.getInstance(context.getApplicationContext()).getRequestQueue();
+    }
+
     public void handInRental(int customerID, int inventoryID) throws AuthFailureError{
 
         final JSONObjectRequest req = new JSONObjectRequest(Request.Method.PUT,
