@@ -51,7 +51,7 @@ public class RentedListAdapter extends ArrayAdapter<Rental> {
         if (days <= 0){
             rentalReturn.setText(getContext().getResources().getString(R.string.returnToday));
         } else {
-            rentalReturn.setText(getContext().getResources().getString(R.string.returnIn) + days + getContext().getResources().getString(R.string.returnDays));
+            rentalReturn.setText(getContext().getResources().getString(R.string.returnIn) + " " + days + " " + getContext().getResources().getString(R.string.returnDays));
         }
 
         return customView;

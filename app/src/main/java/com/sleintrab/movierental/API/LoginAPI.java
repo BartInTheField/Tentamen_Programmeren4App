@@ -83,7 +83,7 @@ public class LoginAPI implements Response.ErrorListener, Response.Listener {
         if (error.networkResponse.statusCode == 400) {
             Toasty.error(context, context.getResources().getString(R.string.invalidCredentials), Toast.LENGTH_SHORT).show();
         } else {
-            Log.e(TAG,error.getMessage());
+            Log.e(TAG,"Error:" + error.getMessage());
             Toasty.error(context, context.getResources().getString(R.string.failedToLogin), Toast.LENGTH_SHORT).show();
         }
     }

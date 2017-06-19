@@ -62,7 +62,7 @@ public class CopyAPI implements Response.Listener, Response.ErrorListener {
         if (error.networkResponse.statusCode == 400) {
             errorListener.noCopiesAvailable();
         } else {
-            Log.e(TAG,error.getMessage());
+            Log.e(TAG,"Error:" + error.getMessage());
             Toasty.error(context, context.getResources().getString(R.string.failedCopies), Toast.LENGTH_SHORT).show();
         }
     }
