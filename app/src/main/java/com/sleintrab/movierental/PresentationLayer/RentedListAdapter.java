@@ -1,6 +1,7 @@
 package com.sleintrab.movierental.PresentationLayer;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 
 public class RentedListAdapter extends ArrayAdapter<Rental> {
 
+    private final String TAG = getClass().getSimpleName();
 
     public RentedListAdapter(Context context, ArrayList<Rental> rentalList){
         super(context, R.layout.rented_list_item, rentalList);
@@ -63,7 +65,8 @@ public class RentedListAdapter extends ArrayAdapter<Rental> {
             days = daysBetween(new Date(), date);
             return days;
         } catch (ParseException e) {
-            e.printStackTrace();
+            Log.e(TAG,e.getMessage());
+
         }
 
         return days;

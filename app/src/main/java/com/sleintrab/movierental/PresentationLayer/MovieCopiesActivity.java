@@ -31,6 +31,8 @@ import es.dmoral.toasty.Toasty;
 
 public class MovieCopiesActivity extends AppCompatActivity implements RentalAPI.OnRentalFailed, RentalAPI.OnRentalSuccess, CopyAPI.OnCopiesAvailable, CopyAPI.NoCopiesAvailable, RentalAPI.OnActiveRentalsAvailable {
 
+    private final String TAG = getClass().getSimpleName();
+
     private final String SHAREDACCESTOKEN = "ACCESSTOKEN";
     private SharedPreferences accesToken;
     private SharedPreferences.Editor accesTokenEdit;
@@ -68,7 +70,7 @@ public class MovieCopiesActivity extends AppCompatActivity implements RentalAPI.
         try {
             rentalAPI.getActiveRentals();
         } catch (AuthFailureError authFailureError) {
-            authFailureError.printStackTrace();
+            Log.e(TAG,authFailureError.getMessage());
             Intent intent = new Intent(this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -99,7 +101,7 @@ public class MovieCopiesActivity extends AppCompatActivity implements RentalAPI.
                     rentalAPI.makeRental(customer.getId(), rental.getInventoryID());
                     rental.setActive(true);
                 } catch (AuthFailureError authFailureError) {
-                    authFailureError.printStackTrace();
+                    Log.e(TAG,authFailureError.getMessage());
                     accesTokenEdit.clear();
                     accesTokenEdit.apply();
                     Intent i = new Intent(getApplicationContext(), LoginActivity.class);
@@ -136,7 +138,6 @@ public class MovieCopiesActivity extends AppCompatActivity implements RentalAPI.
                     break;
                 }
             }
-            Log.i("TAGGG", String.valueOf(r.isActive()));
             rentals.add(r);
         }
         copyListAdapter = new CopyListAdapter(getApplicationContext(), rentals);
@@ -146,11 +147,9 @@ public class MovieCopiesActivity extends AppCompatActivity implements RentalAPI.
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Rental rental = (Rental)copyListView.getItemAtPosition(position);
-                Log.i("rental test", String.valueOf(rental.isActive()));
                 if(rental.isActive()){
                     Toasty.error(getApplicationContext(), "This copy is already rented", Toast.LENGTH_SHORT).show();
                 }else{
-                    Log.i("Rental ID", "Rental ID " + rental.getInventoryID());
                     createRentDialog(rental);
                 }
             }

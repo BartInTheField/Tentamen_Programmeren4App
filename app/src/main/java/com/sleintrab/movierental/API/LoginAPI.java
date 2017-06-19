@@ -2,6 +2,7 @@ package com.sleintrab.movierental.API;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -25,6 +26,8 @@ import es.dmoral.toasty.Toasty;
 
 public class LoginAPI implements Response.ErrorListener, Response.Listener {
 
+    private final String TAG = getClass().getSimpleName();
+
     private final String SHAREDACCESTOKEN = "ACCESSTOKEN";
     private final String URL = BuildConfig.SERVER_URL + "login";
 
@@ -34,9 +37,9 @@ public class LoginAPI implements Response.ErrorListener, Response.Listener {
     private JSONObject jsonResponse;
     private RequestQueue mQueue;
 
-    private static Context context;
+    private Context context;
 
-    private  OnLoginSuccess listener = null;
+    private OnLoginSuccess listener = null;
 
     public LoginAPI(Context context, OnLoginSuccess listener) {
         this.context = context;
@@ -68,7 +71,7 @@ public class LoginAPI implements Response.ErrorListener, Response.Listener {
             jsonBody.put("email", email);
             jsonBody.put("password", password);
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.e(TAG,e.getMessage());
         }
 
         return jsonBody;
@@ -79,7 +82,7 @@ public class LoginAPI implements Response.ErrorListener, Response.Listener {
         if (error.networkResponse.statusCode == 400) {
             Toasty.error(context, "Invalid Credentials", Toast.LENGTH_SHORT).show();
         } else {
-            error.printStackTrace();
+            Log.e(TAG,error.getMessage());
             Toasty.error(context, "Failed to log in", Toast.LENGTH_SHORT).show();
         }
     }
@@ -89,7 +92,7 @@ public class LoginAPI implements Response.ErrorListener, Response.Listener {
         try {
             jsonResponse = new JSONObject(response.toString());
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.e(TAG,e.getMessage());
         }
 
         setSharedPreference(jsonResponse);

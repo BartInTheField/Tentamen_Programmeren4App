@@ -2,6 +2,7 @@ package com.sleintrab.movierental.PresentationLayer;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -14,6 +15,8 @@ import com.sleintrab.movierental.R;
 import es.dmoral.toasty.Toasty;
 
 public class RegisterActivity extends AppCompatActivity implements RegisterAPI.OnRegisterSuccess {
+
+    private final String TAG = getClass().getSimpleName();
 
     private EditText firstName, lastName, email, password, confirmPassword;
 
@@ -37,10 +40,10 @@ public class RegisterActivity extends AppCompatActivity implements RegisterAPI.O
                     lastName.getText().toString(), email.getText().toString(),password.getText().toString(),
                     confirmPassword.getText().toString());
         }catch(EmptyFieldException e){
-            e.printStackTrace();
+            Log.e(TAG,e.getMessage());
             Toasty.error(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }catch(PasswordsDontMatchException e){
-            e.printStackTrace();
+            Log.e(TAG,e.getMessage());
             Toasty.error(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ import es.dmoral.toasty.Toasty;
 
 public class RentedFragment extends Fragment implements RentalAPI.OnRentalSuccess, RentalAPI.OnRentalsAvailable , RentalAPI.OnRentalFailed{
 
+    private final String TAG = getClass().getSimpleName();
     private ListView rentedListView;
     private RentedListAdapter rentedListAdapter;
     private RentalAPI rentalAPI;
@@ -65,7 +67,7 @@ public class RentedFragment extends Fragment implements RentalAPI.OnRentalSucces
         try {
             rentalAPI.getRentals(customer.getId());
         } catch (AuthFailureError authFailureError) {
-            authFailureError.printStackTrace();
+            Log.e(TAG,authFailureError.getMessage());
             Intent intent = new Intent(getContext(), LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -104,7 +106,7 @@ public class RentedFragment extends Fragment implements RentalAPI.OnRentalSucces
             new RentalAPI(getContext(), this,this,this).handInRental(customer.getId(),
                     rentals.get(rentalPosition).getInventoryID());
         } catch (AuthFailureError authFailureError) {
-            authFailureError.printStackTrace();
+            Log.e(TAG,authFailureError.getMessage());
             Intent intent = new Intent(getContext(), LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);

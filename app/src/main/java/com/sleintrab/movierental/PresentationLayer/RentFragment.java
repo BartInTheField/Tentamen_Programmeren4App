@@ -22,6 +22,7 @@ import java.util.ArrayList;
  */
 
 public class RentFragment extends Fragment implements MovieAPI.OnMoviesAvailable{
+    private final String TAG = getClass().getSimpleName();
 
     private ListView movieListView;
     private MovieListAdapter movieListAdapter;
@@ -42,7 +43,7 @@ public class RentFragment extends Fragment implements MovieAPI.OnMoviesAvailable
         try {
             movieAPI.retrieveMovies();
         } catch (AuthFailureError authFailureError) {
-            authFailureError.printStackTrace();
+            Log.e(TAG,authFailureError.getMessage());
             Intent intent = new Intent(getContext(), LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
