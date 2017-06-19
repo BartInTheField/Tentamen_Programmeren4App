@@ -31,7 +31,7 @@ import java.util.ArrayList;
 
 import es.dmoral.toasty.Toasty;
 
-public class MovieCopiesActivity extends AppCompatActivity implements RentalAPI.OnRentalFailed, RentalAPI.OnRentalSuccess, RentalAPI.OnRentalsAvailable, CopyAPI.OnCopiesAvailable, CopyAPI.NoCopiesAvailable, RentalAPI.OnActiveRentalsAvailable {
+public class MovieCopiesActivity extends AppCompatActivity implements RentalAPI.OnRentalFailed, RentalAPI.OnRentalSuccess, CopyAPI.OnCopiesAvailable, CopyAPI.NoCopiesAvailable, RentalAPI.OnActiveRentalsAvailable {
 
     private final String SHAREDACCESTOKEN = "ACCESSTOKEN";
     private SharedPreferences accesToken;
@@ -60,7 +60,7 @@ public class MovieCopiesActivity extends AppCompatActivity implements RentalAPI.
         movie = (Movie)getIntent().getSerializableExtra("movie");
 
         copyAPI = new CopyAPI(getApplicationContext(),this,this);
-        rentalAPI = new RentalAPI(getApplicationContext(), this, this, this, this);
+        rentalAPI = new RentalAPI(getApplicationContext(), this, this, this);
 
         copyListView = (ListView)findViewById(R.id.rent_movie_listView);
 
@@ -169,10 +169,6 @@ public class MovieCopiesActivity extends AppCompatActivity implements RentalAPI.
         Toasty.error(getApplicationContext(), "Error occurred while renting movie, please try again.", Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void onRentalsAvailable(ArrayList<Rental> rentals) {
-
-    }
 
     @Override
     public void onActiveRentalsAvailable(ArrayList<Integer> inventoryIDs) {
