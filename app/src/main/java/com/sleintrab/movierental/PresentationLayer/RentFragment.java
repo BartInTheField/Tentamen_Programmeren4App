@@ -56,6 +56,9 @@ public class RentFragment extends Fragment implements MovieAPI.OnMoviesAvailable
             movieAPI.retrieveMovies();
         } catch (AuthFailureError authFailureError) {
             authFailureError.printStackTrace();
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         }
     }
 
@@ -78,5 +81,7 @@ public class RentFragment extends Fragment implements MovieAPI.OnMoviesAvailable
                 startActivity(i);
             }
         });
+
+        movieListView.requestFocus();
     }
 }

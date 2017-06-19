@@ -3,6 +3,7 @@ package com.sleintrab.movierental.PresentationLayer;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -70,6 +71,9 @@ public class RentedFragment extends Fragment implements RentalAPI.OnRentalSucces
             rentalAPI.getRentals(customer.getId());
         } catch (AuthFailureError authFailureError) {
             authFailureError.printStackTrace();
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         }
     }
 
@@ -106,6 +110,9 @@ public class RentedFragment extends Fragment implements RentalAPI.OnRentalSucces
                     rentals.get(rentalPosition).getInventoryID());
         } catch (AuthFailureError authFailureError) {
             authFailureError.printStackTrace();
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         }
         showProgressDialog();
     }
