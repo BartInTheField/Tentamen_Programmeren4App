@@ -11,6 +11,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.sleintrab.movierental.BuildConfig;
 import com.sleintrab.movierental.DomainModel.Movie;
+import com.sleintrab.movierental.R;
 import com.sleintrab.movierental.Volley.JSONObjectRequest;
 import com.sleintrab.movierental.Volley.VolleyRequestQueue;
 
@@ -62,10 +63,10 @@ public class MovieAPI implements Response.Listener, Response.ErrorListener {
     @Override
     public void onErrorResponse(VolleyError error) {
         if (error.networkResponse.statusCode == 400) {
-            Toasty.error(context, "Cannot find any movies.", Toast.LENGTH_SHORT).show();
+            Toasty.error(context, context.getResources().getString(R.string.noMovies), Toast.LENGTH_SHORT).show();
         } else {
             Log.e(TAG,error.getMessage());
-            Toasty.error(context, "Failed to retrieve movies", Toast.LENGTH_SHORT).show();
+            Toasty.error(context, context.getResources().getString(R.string.failedMovies), Toast.LENGTH_SHORT).show();
         }
     }
 

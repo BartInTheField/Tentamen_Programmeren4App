@@ -11,6 +11,7 @@ import com.android.volley.VolleyError;
 import com.sleintrab.movierental.BuildConfig;
 import com.sleintrab.movierental.Exceptions.EmptyFieldException;
 import com.sleintrab.movierental.Exceptions.PasswordsDontMatchException;
+import com.sleintrab.movierental.R;
 import com.sleintrab.movierental.Volley.JSONObjectRequest;
 import com.sleintrab.movierental.Volley.VolleyRequestQueue;
 
@@ -51,10 +52,10 @@ public class RegisterAPI implements Response.ErrorListener, Response.Listener{
         fields.add(confirmPassword);
 
         if(hasEmptyFields(fields)){
-            throw new EmptyFieldException("One or more fields are empty");
+            throw new EmptyFieldException(context.getResources().getString(R.string.emptyFields));
         }
         if(!passwordsMatch(password,confirmPassword)){
-            throw new PasswordsDontMatchException("Passwords have to match");
+            throw new PasswordsDontMatchException(context.getResources().getString(R.string.passwordMatch));
         }
 
         final JSONObjectRequest req = new JSONObjectRequest(Request.Method.POST,
@@ -102,9 +103,9 @@ public class RegisterAPI implements Response.ErrorListener, Response.Listener{
     @Override
     public void onErrorResponse(VolleyError error) {
         if(error.networkResponse.statusCode == 400){
-            Toasty.error(context, "Registration failed: Email in use.", Toast.LENGTH_SHORT).show();
+            Toasty.error(context, context.getResources().getString(R.string.emailInUse), Toast.LENGTH_SHORT).show();
         }else{
-            Toasty.error(context, "Registration failed.", Toast.LENGTH_SHORT).show();
+            Toasty.error(context, context.getResources().getString(R.string.failedRegister), Toast.LENGTH_SHORT).show();
         }
     }
 

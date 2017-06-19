@@ -10,6 +10,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.sleintrab.movierental.BuildConfig;
 import com.sleintrab.movierental.DomainModel.Copy;
+import com.sleintrab.movierental.R;
 import com.sleintrab.movierental.Volley.JSONObjectRequest;
 import com.sleintrab.movierental.Volley.VolleyRequestQueue;
 
@@ -62,7 +63,7 @@ public class CopyAPI implements Response.Listener, Response.ErrorListener {
             errorListener.noCopiesAvailable();
         } else {
             Log.e(TAG,error.getMessage());
-            Toasty.error(context, "Failed to retrieve copies", Toast.LENGTH_SHORT).show();
+            Toasty.error(context, context.getResources().getString(R.string.failedCopies), Toast.LENGTH_SHORT).show();
         }
     }
 
