@@ -16,10 +16,8 @@ import com.android.volley.toolbox.HurlStack;
 
 public class VolleyRequestQueue {
 
-    @SuppressLint("StaticFieldLeak")
     private static VolleyRequestQueue mInstance;
-    @SuppressLint("StaticFieldLeak")
-    private static Context mContext;
+    private  Context mContext;
     private RequestQueue mRequestQueue;
 
     private VolleyRequestQueue(Context context){
@@ -28,9 +26,7 @@ public class VolleyRequestQueue {
     }
 
     public static synchronized VolleyRequestQueue getInstance(Context context){
-        if(mContext == null){
-            mInstance = new VolleyRequestQueue(context);
-        }
+        mInstance = new VolleyRequestQueue(context);
         return mInstance;
     }
 
