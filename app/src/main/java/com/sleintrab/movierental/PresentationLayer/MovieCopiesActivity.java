@@ -39,7 +39,6 @@ public class MovieCopiesActivity extends AppCompatActivity implements RentalAPI.
 
     private CopyAPI copyAPI;
     private RentalAPI rentalAPI;
-    private ProgressDialog pd;
     private Movie movie;
     private Customer customer;
     private ListView copyListView;
@@ -86,14 +85,13 @@ public class MovieCopiesActivity extends AppCompatActivity implements RentalAPI.
                 Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(i);
-                finish();
+
             }
         });
     }
 
     public void createRentDialog(final Rental rental){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setCancelable(false);
         builder.setMessage(getResources().getString(R.string.confirmRentMessage));
         builder.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
@@ -104,6 +102,12 @@ public class MovieCopiesActivity extends AppCompatActivity implements RentalAPI.
                     rental.setActive(true);
                 } catch (AuthFailureError authFailureError) {
                     authFailureError.printStackTrace();
+                    accesTokenEdit.clear();
+                    accesTokenEdit.apply();
+                    Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(i);
+
                 }
 
                 dialog.cancel();
@@ -176,8 +180,5 @@ public class MovieCopiesActivity extends AppCompatActivity implements RentalAPI.
     @Override
     public void onActiveRentalsAvailable(ArrayList<Integer> inventoryIDs) {
         this.inventoryIDs = inventoryIDs;
-        for (int i = 0; i < this.inventoryIDs.size(); i++) {
-            Log.i("TAGAGA", String.valueOf(this.inventoryIDs.get(i)));
-        }
     }
 }
