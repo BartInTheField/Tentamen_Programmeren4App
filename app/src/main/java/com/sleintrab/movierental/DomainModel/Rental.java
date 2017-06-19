@@ -53,4 +53,14 @@ public class Rental {
     public void setInventoryID(int inventoryID) {
         this.inventoryID = inventoryID;
     }
+
+    @Override
+    public String toString() {
+        return "Rental{" +
+                "movie=" + movie +
+                ", returnDate='" + returnDate + '\'' +
+                ", inventoryID=" + inventoryID +
+                ", active=" + active +
+                '}';
+    }
 }

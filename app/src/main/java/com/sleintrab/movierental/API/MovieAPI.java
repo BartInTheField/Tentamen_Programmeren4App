@@ -1,7 +1,6 @@
 package com.sleintrab.movierental.API;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -12,6 +11,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.sleintrab.movierental.BuildConfig;
 import com.sleintrab.movierental.DomainModel.Movie;
+import com.sleintrab.movierental.R;
 import com.sleintrab.movierental.Volley.JSONObjectRequest;
 import com.sleintrab.movierental.Volley.VolleyRequestQueue;
 
@@ -19,9 +19,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Map;
 
 import es.dmoral.toasty.Toasty;
 
@@ -30,6 +28,8 @@ import es.dmoral.toasty.Toasty;
  */
 
 public class MovieAPI implements Response.Listener, Response.ErrorListener {
+
+    private final String TAG = getClass().getSimpleName();
 
     private String URL;
 
@@ -63,10 +63,10 @@ public class MovieAPI implements Response.Listener, Response.ErrorListener {
     @Override
     public void onErrorResponse(VolleyError error) {
         if (error.networkResponse.statusCode == 400) {
-            Toasty.error(context, "Cannot find any movies.", Toast.LENGTH_SHORT).show();
+            Toasty.error(context, context.getResources().getString(R.string.noMovies), Toast.LENGTH_SHORT).show();
         } else {
-            error.printStackTrace();
-            Toasty.error(context, "Failed to retrieve movies", Toast.LENGTH_SHORT).show();
+            Log.e(TAG,error.getMessage());
+            Toasty.error(context, context.getResources().getString(R.string.failedMovies), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -94,7 +94,7 @@ public class MovieAPI implements Response.Listener, Response.ErrorListener {
                 movies.add(movie);
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.e(TAG,e.getMessage());
         }
         listener.onMoviesAvailable(movies);
     }

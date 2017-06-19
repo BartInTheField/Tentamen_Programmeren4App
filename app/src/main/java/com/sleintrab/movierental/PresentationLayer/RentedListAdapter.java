@@ -8,18 +8,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.sleintrab.movierental.DomainModel.Movie;
 import com.sleintrab.movierental.DomainModel.Rental;
 import com.sleintrab.movierental.R;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Niels on 6/15/2017.
@@ -27,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 
 public class RentedListAdapter extends ArrayAdapter<Rental> {
 
+    private final String TAG = getClass().getSimpleName();
 
     public RentedListAdapter(Context context, ArrayList<Rental> rentalList){
         super(context, R.layout.rented_list_item, rentalList);
@@ -52,9 +49,9 @@ public class RentedListAdapter extends ArrayAdapter<Rental> {
 
         int days = daysTillReturn(rental);
         if (days <= 0){
-            rentalReturn.setText("Return today");
+            rentalReturn.setText(getContext().getResources().getString(R.string.returnToday));
         } else {
-            rentalReturn.setText("Return in " + days + " days");
+            rentalReturn.setText(getContext().getResources().getString(R.string.returnIn) + " " + days + " " + getContext().getResources().getString(R.string.returnDays));
         }
 
         return customView;
@@ -68,7 +65,8 @@ public class RentedListAdapter extends ArrayAdapter<Rental> {
             days = daysBetween(new Date(), date);
             return days;
         } catch (ParseException e) {
-            e.printStackTrace();
+            Log.e(TAG,e.getMessage());
+
         }
 
         return days;

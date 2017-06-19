@@ -1,12 +1,8 @@
 package com.sleintrab.movierental.PresentationLayer;
 
-
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,27 +10,19 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
-import com.sleintrab.movierental.API.CopyAPI;
 import com.sleintrab.movierental.API.MovieAPI;
-import com.sleintrab.movierental.API.RentalAPI;
-import com.sleintrab.movierental.DomainModel.Copy;
 import com.sleintrab.movierental.DomainModel.Movie;
-import com.sleintrab.movierental.DomainModel.Rental;
 import com.sleintrab.movierental.R;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-
-import es.dmoral.toasty.Toasty;
 
 /**
  * Created by Niels on 6/15/2017.
  */
 
 public class RentFragment extends Fragment implements MovieAPI.OnMoviesAvailable{
+    private final String TAG = getClass().getSimpleName();
 
     private ListView movieListView;
     private MovieListAdapter movieListAdapter;
@@ -55,7 +43,10 @@ public class RentFragment extends Fragment implements MovieAPI.OnMoviesAvailable
         try {
             movieAPI.retrieveMovies();
         } catch (AuthFailureError authFailureError) {
-            authFailureError.printStackTrace();
+            Log.e(TAG,authFailureError.getMessage());
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         }
     }
 
@@ -71,12 +62,13 @@ public class RentFragment extends Fragment implements MovieAPI.OnMoviesAvailable
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Movie movie = (Movie)movieListView.getItemAtPosition(position);
-                Log.i("OnMovieClick", String.valueOf(movie.getID()));
                 Intent i = new Intent(getContext(),MovieCopiesActivity.class);
                 i.putExtra("movie",movie);
                 i.putExtra("customer", ((HomeActivity)getActivity()).getCustomer());
                 startActivity(i);
             }
         });
+
+        movieListView.requestFocus();
     }
 }

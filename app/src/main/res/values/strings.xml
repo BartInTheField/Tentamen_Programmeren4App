@@ -18,4 +18,47 @@
     <string name="confirmRentMessage">Are you sure you want to rent this movie?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+
+    <!-- RentedListAdapter -->
+    <string name="returnToday">Return today</string>
+    <string name="returnIn">Return in </string>
+    <string name="returnDays"> days</string>
+    
+    <!-- RentedFragment -->
+    <string name="confirmRentQuestion">"Are you sure you want to return this movie?"</string>
+    <string name="returnMovie">RETURN</string>
+    <string name="confirmReturn">Yes, return</string>
+    <string name="keepMovie">No, keep it</string>
+    <string name="returningMovie">Returning movie…</string>
+    <string name="errorReturning">Error occurred while handing in movie, please try again.</string>
+
+    <!-- RegisterActivity -->
+    <string name="successFullCreateCustomer">Succesfully created a customer.</string>
+
+    <!--CopyAPI-->
+    <string name="failedCopies">Failed to retrieve copies</string>
+
+    <!--LoginAPI-->
+    <string name="invalidCredentials">Invalid Credentials</string>
+    <string name="failedToLogin">Failed to log in</string>
+
+    <!--MovieAPI-->
+    <string name="noMovies">Cannot find any movies</string>
+    <string name="failedMovies">Failed to retrieve movies</string>
+
+    <!--RegisterAPI-->
+    <string name="emptyFields">One or more fields are empty</string>
+    <string name="passwordMatch">Passwords have to match</string>
+    <string name="emailInUse">Registration failed: Email in use</string>
+    <string name="failedRegister">Registration failed</string>
+
+    <!--LoginActivity-->
+    <string name="loggingIn">Logging in…</string>
+
+    <!--MovieCopiesActivity-->
+    <string name="alreadyRented">This copy is already rented</string>
+    <string name="noCopies">There are no copies available of this movie</string>
+    <string name="rentSuccess">Successfully rented movie!</string>
+    <string name="rentError">Error occurred while renting movie, please try again</string>
+
 </resources>

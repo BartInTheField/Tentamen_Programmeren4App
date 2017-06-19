@@ -3,6 +3,7 @@ package com.sleintrab.movierental.PresentationLayer;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -13,15 +14,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
-import com.sleintrab.movierental.API.MovieAPI;
 import com.sleintrab.movierental.API.RentalAPI;
 import com.sleintrab.movierental.DomainModel.Customer;
-import com.sleintrab.movierental.DomainModel.Movie;
 import com.sleintrab.movierental.DomainModel.Rental;
 import com.sleintrab.movierental.R;
 
@@ -33,8 +30,9 @@ import es.dmoral.toasty.Toasty;
  * Created by Niels on 6/15/2017.
  */
 
-public class RentedFragment extends Fragment implements RentalAPI.OnRentalSuccess, RentalAPI.OnRentalsAvailable , RentalAPI.OnRentalFailed, RentalAPI.OnActiveRentalsAvailable{
+public class RentedFragment extends Fragment implements RentalAPI.OnRentalSuccess, RentalAPI.OnRentalsAvailable , RentalAPI.OnRentalFailed{
 
+    private final String TAG = getClass().getSimpleName();
     private ListView rentedListView;
     private RentedListAdapter rentedListAdapter;
     private RentalAPI rentalAPI;
@@ -60,7 +58,7 @@ public class RentedFragment extends Fragment implements RentalAPI.OnRentalSucces
     }
 
     private void loadRentals(){
-        rentalAPI = new RentalAPI(getActivity().getApplicationContext(), this, this, this, this);
+        rentalAPI = new RentalAPI(getActivity().getApplicationContext(), this, this, this);
         loadingRentals = true;
 
         spinner = (FrameLayout) getView().findViewById(R.id.loadingLayout);
@@ -69,7 +67,10 @@ public class RentedFragment extends Fragment implements RentalAPI.OnRentalSucces
         try {
             rentalAPI.getRentals(customer.getId());
         } catch (AuthFailureError authFailureError) {
-            authFailureError.printStackTrace();
+            Log.e(TAG,authFailureError.getMessage());
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         }
     }
 
@@ -79,15 +80,15 @@ public class RentedFragment extends Fragment implements RentalAPI.OnRentalSucces
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setMessage("Are you sure you want to return this movie?");
-                builder.setTitle("RETURN '" + rentals.get(position).getMovie().getTitle() + "'");
-                builder.setPositiveButton("Yes, return", new DialogInterface.OnClickListener() {
+                builder.setMessage(getResources().getString(R.string.confirmRentQuestion));
+                builder.setTitle(getResources().getString(R.string.returnMovie) + " '" + rentals.get(position).getMovie().getTitle() + "'");
+                builder.setPositiveButton(getResources().getString(R.string.confirmReturn), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         doRentalAPIHandIn(position);
                     }
                 });
-                builder.setNegativeButton("No, keep it", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(getResources().getString(R.string.keepMovie), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
@@ -102,10 +103,13 @@ public class RentedFragment extends Fragment implements RentalAPI.OnRentalSucces
 
     private void doRentalAPIHandIn(int rentalPosition){
         try {
-            new RentalAPI(getContext(), this,this,this, this).handInRental(customer.getId(),
+            new RentalAPI(getContext(), this,this,this).handInRental(customer.getId(),
                     rentals.get(rentalPosition).getInventoryID());
         } catch (AuthFailureError authFailureError) {
-            authFailureError.printStackTrace();
+            Log.e(TAG,authFailureError.getMessage());
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         }
         showProgressDialog();
     }
@@ -113,7 +117,7 @@ public class RentedFragment extends Fragment implements RentalAPI.OnRentalSucces
     private void showProgressDialog(){
         pdIsVisible = true;
         pd = new ProgressDialog(getContext());
-        pd.setMessage("Returning movie...");
+        pd.setMessage(getResources().getString(R.string.returningMovie));
         pd.show();
     }
 
@@ -141,7 +145,7 @@ public class RentedFragment extends Fragment implements RentalAPI.OnRentalSucces
       if (pdIsVisible){
             spinner.setVisibility(View.GONE);
             pd.cancel();
-            Toasty.error(getContext(), "Error occurred while handing in movie, please try again.", Toast.LENGTH_SHORT).show();
+            Toasty.error(getContext(), getResources().getString(R.string.errorReturning), Toast.LENGTH_SHORT).show();
         } else if (loadingRentals){
             loadingRentals = false;
             spinner.setVisibility(View.GONE);
@@ -150,8 +154,5 @@ public class RentedFragment extends Fragment implements RentalAPI.OnRentalSucces
         }
     }
 
-    @Override
-    public void onActiveRentalsAvailable(ArrayList<Integer> inventoryIDs) {
-    }
 }
 

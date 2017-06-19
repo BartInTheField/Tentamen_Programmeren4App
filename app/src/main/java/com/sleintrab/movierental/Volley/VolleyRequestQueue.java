@@ -1,5 +1,6 @@
 package com.sleintrab.movierental.Volley;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 
 import com.android.volley.Cache;
@@ -16,16 +17,16 @@ import com.android.volley.toolbox.HurlStack;
 public class VolleyRequestQueue {
 
     private static VolleyRequestQueue mInstance;
-    private static Context mContext;
+    private Context mContext;
     private RequestQueue mRequestQueue;
 
     private VolleyRequestQueue(Context context){
-        this.mContext = context;
-        this.mRequestQueue = getRequestQueue();
+        mContext = context;
+        mRequestQueue = getRequestQueue();
     }
 
     public static synchronized VolleyRequestQueue getInstance(Context context){
-        if(mContext == null){
+        if (mInstance == null){
             mInstance = new VolleyRequestQueue(context);
         }
         return mInstance;

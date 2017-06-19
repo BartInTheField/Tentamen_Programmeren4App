@@ -1,6 +1,7 @@
 package com.sleintrab.movierental.API;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -9,6 +10,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.sleintrab.movierental.BuildConfig;
 import com.sleintrab.movierental.DomainModel.Copy;
+import com.sleintrab.movierental.R;
 import com.sleintrab.movierental.Volley.JSONObjectRequest;
 import com.sleintrab.movierental.Volley.VolleyRequestQueue;
 
@@ -27,7 +29,7 @@ import es.dmoral.toasty.Toasty;
 public class CopyAPI implements Response.Listener, Response.ErrorListener {
 
     private String URL;
-
+    private final String TAG = getClass().getSimpleName();
     private RequestQueue mQueue;
 
     private OnCopiesAvailable listener;
@@ -60,8 +62,8 @@ public class CopyAPI implements Response.Listener, Response.ErrorListener {
         if (error.networkResponse.statusCode == 400) {
             errorListener.noCopiesAvailable();
         } else {
-            error.printStackTrace();
-            Toasty.error(context, "Failed to retrieve copies", Toast.LENGTH_SHORT).show();
+            Log.e(TAG,"Error:" + error.getMessage());
+            Toasty.error(context, context.getResources().getString(R.string.failedCopies), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -77,7 +79,7 @@ public class CopyAPI implements Response.Listener, Response.ErrorListener {
                 copies.add(new Copy(copyObject.optInt("inventory_id"), copyObject.optInt("film_id")));
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.e(TAG,e.getMessage());
         }
         listener.onCopiesAvailable(copies);
     }

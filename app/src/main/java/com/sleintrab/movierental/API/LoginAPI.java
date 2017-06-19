@@ -11,6 +11,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.sleintrab.movierental.BuildConfig;
 import com.sleintrab.movierental.DomainModel.Customer;
+import com.sleintrab.movierental.R;
 import com.sleintrab.movierental.Volley.JSONObjectRequest;
 import com.sleintrab.movierental.Volley.VolleyRequestQueue;
 
@@ -26,6 +27,8 @@ import es.dmoral.toasty.Toasty;
 
 public class LoginAPI implements Response.ErrorListener, Response.Listener {
 
+    private final String TAG = getClass().getSimpleName();
+
     private final String SHAREDACCESTOKEN = "ACCESSTOKEN";
     private final String URL = BuildConfig.SERVER_URL + "login";
 
@@ -35,9 +38,9 @@ public class LoginAPI implements Response.ErrorListener, Response.Listener {
     private JSONObject jsonResponse;
     private RequestQueue mQueue;
 
-    private static Context context;
+    private Context context;
 
-    private  OnLoginSuccess listener = null;
+    private OnLoginSuccess listener = null;
 
     public LoginAPI(Context context, OnLoginSuccess listener) {
         this.context = context;
@@ -69,7 +72,7 @@ public class LoginAPI implements Response.ErrorListener, Response.Listener {
             jsonBody.put("email", email);
             jsonBody.put("password", password);
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.e(TAG,e.getMessage());
         }
 
         return jsonBody;
@@ -78,10 +81,10 @@ public class LoginAPI implements Response.ErrorListener, Response.Listener {
     @Override
     public void onErrorResponse(VolleyError error) {
         if (error.networkResponse.statusCode == 400) {
-            Toasty.error(context, "Invalid Credentials", Toast.LENGTH_SHORT).show();
+            Toasty.error(context, context.getResources().getString(R.string.invalidCredentials), Toast.LENGTH_SHORT).show();
         } else {
-            error.printStackTrace();
-            Toasty.error(context, "Failed to log in", Toast.LENGTH_SHORT).show();
+            Log.e(TAG,"Error:" + error.getMessage());
+            Toasty.error(context, context.getResources().getString(R.string.failedToLogin), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -90,7 +93,7 @@ public class LoginAPI implements Response.ErrorListener, Response.Listener {
         try {
             jsonResponse = new JSONObject(response.toString());
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.e(TAG,e.getMessage());
         }
 
         setSharedPreference(jsonResponse);
