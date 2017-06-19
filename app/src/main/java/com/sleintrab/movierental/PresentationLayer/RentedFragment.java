@@ -80,15 +80,15 @@ public class RentedFragment extends Fragment implements RentalAPI.OnRentalSucces
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setMessage("Are you sure you want to return this movie?");
-                builder.setTitle("RETURN '" + rentals.get(position).getMovie().getTitle() + "'");
-                builder.setPositiveButton("Yes, return", new DialogInterface.OnClickListener() {
+                builder.setMessage(getResources().getString(R.string.confirmRentQuestion));
+                builder.setTitle(getResources().getString(R.string.returnMovie) + " '" + rentals.get(position).getMovie().getTitle() + "'");
+                builder.setPositiveButton(getResources().getString(R.string.confirmReturn), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         doRentalAPIHandIn(position);
                     }
                 });
-                builder.setNegativeButton("No, keep it", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(getResources().getString(R.string.keepMovie), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
@@ -117,7 +117,7 @@ public class RentedFragment extends Fragment implements RentalAPI.OnRentalSucces
     private void showProgressDialog(){
         pdIsVisible = true;
         pd = new ProgressDialog(getContext());
-        pd.setMessage("Returning movie...");
+        pd.setMessage(getResources().getString(R.string.returningMovie));
         pd.show();
     }
 
@@ -145,7 +145,7 @@ public class RentedFragment extends Fragment implements RentalAPI.OnRentalSucces
       if (pdIsVisible){
             spinner.setVisibility(View.GONE);
             pd.cancel();
-            Toasty.error(getContext(), "Error occurred while handing in movie, please try again.", Toast.LENGTH_SHORT).show();
+            Toasty.error(getContext(), getResources().getString(R.string.errorReturning), Toast.LENGTH_SHORT).show();
         } else if (loadingRentals){
             loadingRentals = false;
             spinner.setVisibility(View.GONE);

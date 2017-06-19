@@ -62,7 +62,6 @@ public class RentFragment extends Fragment implements MovieAPI.OnMoviesAvailable
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Movie movie = (Movie)movieListView.getItemAtPosition(position);
-                Log.i("OnMovieClick", String.valueOf(movie.getID()));
                 Intent i = new Intent(getContext(),MovieCopiesActivity.class);
                 i.putExtra("movie",movie);
                 i.putExtra("customer", ((HomeActivity)getActivity()).getCustomer());

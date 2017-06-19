@@ -51,7 +51,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterAPI.O
     @Override
     public void onRegisterSuccess() {
 
-        Toasty.success(getApplicationContext(), "Succesfully created a customer.", Toast.LENGTH_SHORT).show();
+        Toasty.success(getApplicationContext(), getResources().getString(R.string.successFullCreateCustomer), Toast.LENGTH_SHORT).show();
         finish();
     }
 }
