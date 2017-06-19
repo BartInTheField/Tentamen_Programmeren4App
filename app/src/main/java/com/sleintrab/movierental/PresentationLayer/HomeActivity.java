@@ -8,15 +8,11 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.sleintrab.movierental.DomainModel.Customer;
 import com.sleintrab.movierental.R;
-
-import es.dmoral.toasty.Toasty;
 
 public class HomeActivity extends FragmentActivity {
 

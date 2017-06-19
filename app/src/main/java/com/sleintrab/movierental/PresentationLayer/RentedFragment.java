@@ -7,22 +7,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
-import com.sleintrab.movierental.API.MovieAPI;
 import com.sleintrab.movierental.API.RentalAPI;
 import com.sleintrab.movierental.DomainModel.Customer;
-import com.sleintrab.movierental.DomainModel.Movie;
 import com.sleintrab.movierental.DomainModel.Rental;
 import com.sleintrab.movierental.R;
 

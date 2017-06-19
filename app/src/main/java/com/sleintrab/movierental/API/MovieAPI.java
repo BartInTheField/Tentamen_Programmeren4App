@@ -1,7 +1,6 @@
 package com.sleintrab.movierental.API;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -19,9 +18,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Map;
 
 import es.dmoral.toasty.Toasty;
 
