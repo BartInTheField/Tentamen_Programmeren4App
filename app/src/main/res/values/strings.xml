@@ -36,4 +36,13 @@
     <string name="emailInUse">Registration failed: Email in use</string>
     <string name="failedRegister">Registration failed</string>
 
+    <!--LoginActivity-->
+    <string name="loggingIn">Logging in…</string>
+
+    <!--MovieCopiesActivity-->
+    <string name="alreadyRented">This copy is already rented</string>
+    <string name="noCopies">There are no copies available of this movie</string>
+    <string name="rentSuccess">Successfully rented movie!</string>
+    <string name="rentError">Error occurred while renting movie, please try again</string>
+
 </resources>

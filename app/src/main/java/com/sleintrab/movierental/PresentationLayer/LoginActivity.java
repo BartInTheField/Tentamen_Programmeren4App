@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity implements LoginAPI.OnLogin
 
     private void showProgressDialog(){
         pd = new ProgressDialog(this);
-        pd.setMessage("logging in...");
+        pd.setMessage(getResources().getString(R.string.loggingIn));
         pd.show();
     }
 
