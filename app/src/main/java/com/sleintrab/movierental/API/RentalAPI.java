@@ -107,7 +107,7 @@ public class RentalAPI implements Response.ErrorListener, Response.Listener {
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        Log.e(TAG,error.getMessage());
+        Log.i(TAG,"Error:" + error.getMessage());
         errorListener.onRentalFailed();
 
     }
