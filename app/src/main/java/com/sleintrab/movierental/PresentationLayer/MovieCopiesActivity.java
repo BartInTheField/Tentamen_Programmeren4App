@@ -116,7 +116,6 @@ public class MovieCopiesActivity extends AppCompatActivity implements RentalAPI.
         builder.setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Log.i("ConfirmRent", "Cancelled renting film");
                 dialog.cancel();
             }
         });
@@ -148,7 +147,7 @@ public class MovieCopiesActivity extends AppCompatActivity implements RentalAPI.
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Rental rental = (Rental)copyListView.getItemAtPosition(position);
                 if(rental.isActive()){
-                    Toasty.error(getApplicationContext(), "This copy is already rented", Toast.LENGTH_SHORT).show();
+                    Toasty.error(getApplicationContext(), getResources().getString(R.string.alreadyRented), Toast.LENGTH_SHORT).show();
                 }else{
                     createRentDialog(rental);
                 }
@@ -158,19 +157,18 @@ public class MovieCopiesActivity extends AppCompatActivity implements RentalAPI.
 
     @Override
     public void noCopiesAvailable() {
-        Log.i("OnCopyAvailable", "No copies available");
-        Toasty.error(getApplicationContext(), "There are no copies available of this movie.", Toast.LENGTH_SHORT).show();
+        Toasty.error(getApplicationContext(), getResources().getString(R.string.noCopies), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onRentalSuccess() {
-        Toasty.success(getApplicationContext(), "Successfully rented movie!", Toast.LENGTH_SHORT).show();
+        Toasty.success(getApplicationContext(), getResources().getString(R.string.rentSuccess), Toast.LENGTH_SHORT).show();
         finish();
     }
 
     @Override
     public void onRentalFailed() {
-        Toasty.error(getApplicationContext(), "Error occurred while renting movie, please try again.", Toast.LENGTH_SHORT).show();
+        Toasty.error(getApplicationContext(), getResources().getString(R.string.rentError), Toast.LENGTH_SHORT).show();
     }
 
 

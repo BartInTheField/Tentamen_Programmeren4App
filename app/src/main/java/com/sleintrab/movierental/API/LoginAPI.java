@@ -11,6 +11,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.sleintrab.movierental.BuildConfig;
 import com.sleintrab.movierental.DomainModel.Customer;
+import com.sleintrab.movierental.R;
 import com.sleintrab.movierental.Volley.JSONObjectRequest;
 import com.sleintrab.movierental.Volley.VolleyRequestQueue;
 
@@ -80,10 +81,10 @@ public class LoginAPI implements Response.ErrorListener, Response.Listener {
     @Override
     public void onErrorResponse(VolleyError error) {
         if (error.networkResponse.statusCode == 400) {
-            Toasty.error(context, "Invalid Credentials", Toast.LENGTH_SHORT).show();
+            Toasty.error(context, context.getResources().getString(R.string.invalidCredentials), Toast.LENGTH_SHORT).show();
         } else {
             Log.e(TAG,error.getMessage());
-            Toasty.error(context, "Failed to log in", Toast.LENGTH_SHORT).show();
+            Toasty.error(context, context.getResources().getString(R.string.failedToLogin), Toast.LENGTH_SHORT).show();
         }
     }
 
