@@ -19,6 +19,22 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
+    <!-- RentedListAdapter -->
+    <string name="returnToday">Return today</string>
+    <string name="returnIn">Return in </string>
+    <string name="returnDays"> days</string>
+    
+    <!-- RentedFragment -->
+    <string name="confirmRentQuestion">"Are you sure you want to return this movie?"</string>
+    <string name="returnMovie">RETURN</string>
+    <string name="confirmReturn">Yes, return</string>
+    <string name="keepMovie">No, keep it</string>
+    <string name="returningMovie">Returning movie…</string>
+    <string name="errorReturning">Error occurred while handing in movie, please try again.</string>
+
+    <!-- RegisterActivity -->
+    <string name="successFullCreateCustomer">Succesfully created a customer.</string>
+
     <!--CopyAPI-->
     <string name="failedCopies">Failed to retrieve copies</string>
 
