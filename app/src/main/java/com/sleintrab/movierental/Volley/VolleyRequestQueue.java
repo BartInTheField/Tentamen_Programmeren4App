@@ -17,16 +17,18 @@ import com.android.volley.toolbox.HurlStack;
 public class VolleyRequestQueue {
 
     private static VolleyRequestQueue mInstance;
-    private  Context mContext;
+    private static Context mContext;
     private RequestQueue mRequestQueue;
 
     private VolleyRequestQueue(Context context){
         mContext = context;
-        this.mRequestQueue = getRequestQueue();
+        mRequestQueue = getRequestQueue();
     }
 
     public static synchronized VolleyRequestQueue getInstance(Context context){
-        mInstance = new VolleyRequestQueue(context);
+        if (mInstance == null){
+            mInstance = new VolleyRequestQueue(context);
+        }
         return mInstance;
     }
 
