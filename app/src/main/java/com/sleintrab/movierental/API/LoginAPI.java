@@ -41,10 +41,11 @@ public class LoginAPI implements Response.ErrorListener, Response.Listener {
     private Context context;
 
     private OnLoginSuccess listener = null;
-
-    public LoginAPI(Context context, OnLoginSuccess listener) {
+    private OnLoginFailed errorListener = null;
+    public LoginAPI(Context context, OnLoginSuccess listener, OnLoginFailed errorListener) {
         this.context = context;
         this.listener = listener;
+        this.errorListener = errorListener;
 
         accesToken = context.getSharedPreferences(SHAREDACCESTOKEN, Context.MODE_PRIVATE);
         accesTokenEdit = accesToken.edit();
@@ -81,10 +82,10 @@ public class LoginAPI implements Response.ErrorListener, Response.Listener {
     @Override
     public void onErrorResponse(VolleyError error) {
         if (error.networkResponse.statusCode == 400) {
-            Toasty.error(context, context.getResources().getString(R.string.invalidCredentials), Toast.LENGTH_SHORT).show();
+            errorListener.onLoginFailed();
         } else {
             Log.e(TAG,"Error:" + error.getMessage());
-            Toasty.error(context, context.getResources().getString(R.string.failedToLogin), Toast.LENGTH_SHORT).show();
+            errorListener.onLoginFailed();
         }
     }
 
@@ -114,8 +115,12 @@ public class LoginAPI implements Response.ErrorListener, Response.Listener {
         return c;
     }
 
-    //call back interface
+    //call back on succes
     public interface OnLoginSuccess {
         void onLoginSuccess(Customer customer);
+    }
+    //call back interface
+    public interface OnLoginFailed{
+        void onLoginFailed();
     }
 }
