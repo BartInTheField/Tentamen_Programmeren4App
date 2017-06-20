@@ -40,7 +40,6 @@
 
     <!--LoginAPI-->
     <string name="invalidCredentials">Invalid Credentials</string>
-    <string name="failedToLogin">Failed to log in</string>
 
     <!--MovieAPI-->
     <string name="noMovies">Cannot find any movies</string>
